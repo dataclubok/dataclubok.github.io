@@ -11,7 +11,7 @@
 :root{--bg:#000;--card:#0d0d0d;--line:#1f1f1f;--turq:#5EC1CD;--teal:#117B92;--muted:#8a8a8a}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:#fff;font-family:Archivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1180px;margin:0 auto;padding:0 16px 72px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 104px}
 header{text-align:center;padding:34px 0 22px}
 header img{width:62px;height:auto;display:block;margin:0 auto 16px}
 h1{font-family:'Archivo Black',Archivo,sans-serif;font-size:clamp(30px,8vw,46px);letter-spacing:.02em;line-height:1}
@@ -63,10 +63,42 @@ input[type=search]:focus{outline:none;border-color:var(--teal)}
 .state{text-align:center;color:var(--muted);padding:56px 16px;font-size:14px;line-height:1.6}
 footer{text-align:center;color:#5a5a5a;font-size:12.5px;padding:40px 0 0;line-height:1.7}
 footer a{color:var(--turq);text-decoration:none}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);
+.toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%) translateY(140%);
+  opacity:0;visibility:hidden;pointer-events:none;
   background:var(--turq);color:#000;font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;
   transition:transform .25s;z-index:60;max-width:90vw;text-align:center}
-.toast.on{transform:translateX(-50%) translateY(0)}
+.toast.on{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
+
+/* --- Instagram --- */
+.ig{padding:50px 0 0;margin-top:46px;border-top:1px solid var(--line)}
+.ig h2{font-family:'Archivo Black',Archivo,sans-serif;font-size:clamp(20px,5.6vw,27px);
+  text-align:center;letter-spacing:.02em}
+.ig .rule{margin:13px auto 11px}
+.handle{display:block;text-align:center;color:var(--turq);text-decoration:none;
+  font-size:14.5px;font-weight:600;margin-bottom:20px}
+.handle:hover{text-decoration:underline}
+.iggrid{display:grid;gap:11px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.igp{position:relative;display:block;aspect-ratio:1;border-radius:12px;overflow:hidden;
+  background:#0a0a0a;border:1px solid var(--line)}
+.igp img{width:100%;height:100%;object-fit:cover;display:block;transition:.25s}
+.igp:hover img{transform:scale(1.06);opacity:.86}
+.igp .vid{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.66);color:#fff;
+  font-size:10px;line-height:1;padding:5px 6px;border-radius:5px}
+.igmore{max-width:300px;margin:16px auto 0}
+.igbox{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:26px 20px;display:flex;flex-direction:column;align-items:center;gap:15px}
+.igbox p{color:var(--muted);font-size:13.5px;line-height:1.6;max-width:430px;text-align:center}
+.igbox .btn{max-width:270px}
+
+/* --- WhatsApp flotante --- */
+.wafab{position:fixed;right:15px;bottom:15px;z-index:55;display:inline-flex;align-items:center;
+  gap:9px;background:#25D366;color:#fff;text-decoration:none;border-radius:999px;
+  padding:12px 17px 12px 14px;font-size:14px;font-weight:700;font-family:inherit;
+  box-shadow:0 12px 28px rgba(0,0,0,.6);transition:transform .16s,box-shadow .16s}
+.wafab:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,.66)}
+.wafab:active{transform:translateY(0)}
+.wafab svg{flex:0 0 auto}
+@media(max-width:400px){.wafab{padding:12px 15px 12px 13px;font-size:13.5px}}
 </style>
 </head>
 <body>
@@ -88,17 +120,42 @@ footer a{color:var(--turq);text-decoration:none}
   <div class="grid" id="grid"></div>
   <div class="state" id="state">Cargando el catálogo…</div>
 
+
+  <section class="ig" id="ig">
+    <h2>SEGUINOS</h2>
+    <div class="rule"></div>
+    <a class="handle" href="https://instagram.com/data.club1" target="_blank" rel="noopener">@data.club1</a>
+    <div id="igbox">
+      <div class="igbox">
+        <p>Ahí subimos los ingresos nuevos, los talles que entran y lo que se va.
+           Si no te querés quedar afuera de un modelo, seguinos.</p>
+        <a class="btn" href="https://instagram.com/data.club1" target="_blank" rel="noopener">Ver el Instagram</a>
+      </div>
+    </div>
+  </section>
+
   <footer>
     Data Club · Paraná, Entre Ríos<br>
     <a href="https://instagram.com/data.club1">@data.club1</a>
   </footer>
 </div>
+<a class="wafab" href="https://wa.me/5493434068333?text=Hola%20Data%20Club%21%20Te%20quiero%20hacer%20una%20consulta."
+   target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 11.6a8.4 8.4 0 0 1-8.5 8.4 8.7 8.7 0 0 1-3.9-.9L3 21l1.9-5.1A8.3 8.3 0 0 1 4 12.1 8.4 8.4 0 0 1 12.5 3.2 8.4 8.4 0 0 1 21 11.6z"/>
+  </svg>
+  <span>WhatsApp</span>
+</a>
 <div class="toast" id="toast"></div>
 
 <script>
 const SHEET_ID = "19bg-1XTt5DF_C3qvKXF6Nqs4MHYdTQ0xRzvd3V5RZw8";
 const CSV = "https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:csv&sheet=Catalogo";
 const IG = "data.club1";
+// Feed JSON de Instagram (Behold). Vacio = se muestra el bloque "Seguinos".
+const IG_FEED  = "";
+const IG_POSTS = 3;
 // Pegá acá el número de WhatsApp con código de país, solo dígitos. Ej: 5493434123456
 const WA = "5493434068333";
 const FALLBACK = [{"orden": 1, "mostrar": "SI", "club": "River Plate", "modelo": "Titular", "calidad": "Estándar", "tipo": "Camiseta", "talles": "S · M · L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 2, "mostrar": "SI", "club": "River Plate", "modelo": "Tercera", "calidad": "Estándar", "tipo": "Camiseta", "talles": "S · M · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 3, "mostrar": "SI", "club": "Boca Juniors", "modelo": "Titular", "calidad": "Estándar", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 4, "mostrar": "SI", "club": "Boca Juniors", "modelo": "Suplente", "calidad": "Estándar", "tipo": "Camiseta", "talles": "S · M · XL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 5, "mostrar": "SI", "club": "Racing", "modelo": "Titular", "calidad": "Estándar", "tipo": "Camiseta", "talles": "L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 6, "mostrar": "SI", "club": "Manchester City", "modelo": "Titular (Enzo)", "calidad": "Estándar", "tipo": "Camiseta", "talles": "L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 7, "mostrar": "SI", "club": "Boca Juniors", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 8, "mostrar": "SI", "club": "Juventus", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 9, "mostrar": "SI", "club": "Liverpool", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "S · M", "precio": 47000, "foto": "", "nota": ""}, {"orden": 10, "mostrar": "SI", "club": "Barcelona", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 11, "mostrar": "SI", "club": "Barcelona", "modelo": "Titular G5", "calidad": "Premium", "tipo": "Camiseta", "talles": "XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 12, "mostrar": "SI", "club": "Real Madrid", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 13, "mostrar": "SI", "club": "Real Madrid", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "L", "precio": 47000, "foto": "", "nota": ""}, {"orden": 14, "mostrar": "SI", "club": "Arsenal", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 15, "mostrar": "SI", "club": "Manchester United", "modelo": "Retro blanca", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 16, "mostrar": "SI", "club": "Manchester United", "modelo": "Retro roja", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 17, "mostrar": "SI", "club": "Manchester United", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 18, "mostrar": "SI", "club": "Bayern Munich", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 19, "mostrar": "SI", "club": "Atlético Madrid", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 20, "mostrar": "SI", "club": "PSG", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 21, "mostrar": "SI", "club": "España", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L", "precio": 47000, "foto": "", "nota": ""}, {"orden": 22, "mostrar": "SI", "club": "Inter", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L", "precio": 47000, "foto": "", "nota": ""}, {"orden": 23, "mostrar": "SI", "club": "Inter", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 24, "mostrar": "SI", "club": "Milan", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 25, "mostrar": "SI", "club": "Portugal", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 26, "mostrar": "SI", "club": "Chelsea", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 27, "mostrar": "SI", "club": "Chelsea", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 28, "mostrar": "SI", "club": "Brasil", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 29, "mostrar": "SI", "club": "Roma", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 30, "mostrar": "SI", "club": "Portugal", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "L", "precio": 42000, "foto": "", "nota": ""}, {"orden": 31, "mostrar": "SI", "club": "Manchester United", "modelo": "Titular blanco", "calidad": "Premium", "tipo": "Short", "talles": "XXL", "precio": 42000, "foto": "", "nota": ""}, {"orden": 32, "mostrar": "SI", "club": "PSG", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "XL", "precio": 42000, "foto": "", "nota": ""}, {"orden": 33, "mostrar": "SI", "club": "Tottenham", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "L", "precio": 42000, "foto": "", "nota": ""}, {"orden": 34, "mostrar": "SI", "club": "España", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "XXL", "precio": 42000, "foto": "", "nota": ""}, {"orden": 35, "mostrar": "SI", "club": "Real Madrid", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "M", "precio": 42000, "foto": "", "nota": ""}];
@@ -232,6 +289,29 @@ document.getElementById("q").addEventListener("input",e=>{
   texto=e.target.value.trim().toLowerCase(); render();
 });
 
+async function instagram(){
+  if(!IG_FEED) return;
+  const box=document.getElementById("igbox");
+  try{
+    const r=await fetch(IG_FEED,{cache:"no-store"});
+    if(!r.ok) throw new Error(r.status);
+    const d=await r.json();
+    const posts=(d.posts||[]).slice(0,IG_POSTS);
+    if(!posts.length) throw new Error("sin posts");
+    const cel=posts.map(p=>{
+      const img=(p.sizes&&p.sizes.medium&&p.sizes.medium.mediaUrl)||p.thumbnailUrl||p.mediaUrl||"";
+      const vid=/VIDEO|REEL/i.test(p.mediaType||"");
+      const cap=esc(((p.prunedCaption||p.caption||"").replace(/\s+/g," ")).slice(0,100));
+      const url=esc(p.permalink||("https://instagram.com/"+IG));
+      return '<a class="igp" href="'+url+'" target="_blank" rel="noopener" title="'+cap+'">'
+        +(img?'<img src="'+esc(img)+'" alt="'+(cap||"Publicación de Data Club")+'" loading="lazy">':"")
+        +(vid?'<span class="vid">VIDEO</span>':"")+'</a>';
+    }).join("");
+    box.innerHTML='<div class="iggrid">'+cel+'</div>'
+      +'<a class="btn igmore" href="https://instagram.com/'+IG+'" target="_blank" rel="noopener">Ver más en @'+IG+'</a>';
+  }catch(err){ /* queda el bloque "Seguinos" */ }
+}
+
 (async function(){
   chips();
   try{
@@ -244,6 +324,7 @@ document.getElementById("q").addEventListener("input",e=>{
     DATA=FALLBACK;
   }
   render();
+  instagram();
 })();
 </script>
 </body>
