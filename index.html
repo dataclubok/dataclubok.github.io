@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Club · Catálogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--card:#0d0d0d;--line:#1f1f1f;--turq:#5EC1CD;--teal:#117B92;--muted:#8a8a8a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:#fff;font-family:Archivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 72px}
+header{text-align:center;padding:34px 0 22px}
+header img{width:62px;height:auto;display:block;margin:0 auto 16px}
+h1{font-family:'Archivo Black',Archivo,sans-serif;font-size:clamp(30px,8vw,46px);letter-spacing:.02em;line-height:1}
+.rule{width:92px;height:5px;margin:14px auto 12px;border-radius:3px;
+  background:linear-gradient(90deg,var(--turq),var(--teal))}
+.sub{color:var(--muted);font-size:13.5px;line-height:1.5}
+.sub b{color:var(--turq);font-weight:600}
+.bar{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.93);
+  backdrop-filter:blur(8px);padding:12px 0 10px;border-bottom:1px solid var(--line)}
+input[type=search]{width:100%;padding:12px 14px;border-radius:11px;border:1px solid var(--line);
+  background:#0b0b0b;color:#fff;font:inherit;font-size:15px}
+input[type=search]::placeholder{color:#5c5c5c}
+input[type=search]:focus{outline:none;border-color:var(--teal)}
+.chips{display:flex;gap:7px;overflow-x:auto;margin-top:10px;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:7px 14px;border-radius:999px;border:1px solid var(--line);
+  background:#0b0b0b;color:#b9b9b9;font-size:13px;cursor:pointer;white-space:nowrap}
+.chip[aria-pressed=true]{background:var(--turq);border-color:var(--turq);color:#000;font-weight:600}
+.count{color:var(--muted);font-size:12.5px;margin:16px 0 10px}
+.grid{display:grid;gap:13px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:680px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:960px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  display:flex;flex-direction:column}
+.ph{position:relative;aspect-ratio:4/5;background:#0a0a0a;overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.noimg{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:9px;color:#2f2f2f}
+.noimg span{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:#3d3d3d}
+.tag{position:absolute;top:9px;left:9px;background:var(--turq);color:#000;font-size:10.5px;
+  font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:4px 8px;border-radius:5px}
+.qual{position:absolute;top:9px;right:9px;font-size:10px;letter-spacing:.07em;text-transform:uppercase;
+  padding:4px 8px;border-radius:5px;background:rgba(0,0,0,.72);border:1px solid var(--line);color:#c9c9c9}
+.qual.pre{border-color:var(--teal);color:var(--turq)}
+.body{padding:12px 12px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
+.club{font-family:'Archivo Black',Archivo,sans-serif;font-size:14.5px;line-height:1.15;text-transform:uppercase}
+.model{color:var(--muted);font-size:12.5px;margin-top:-3px}
+.sizes{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.sz{font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:7px;border:1px solid #2b2b2b;
+  color:#eaeaea;background:#141414;cursor:pointer;font-family:inherit;transition:.12s}
+.sz:hover{border-color:var(--turq);color:var(--turq)}
+.sz:active{background:var(--turq);color:#000;border-color:var(--turq)}
+.hint{font-size:11px;color:#6d6d6d;margin-top:-1px}
+.price{font-family:'Archivo Black',Archivo,sans-serif;font-size:19px;color:var(--turq);margin-top:auto;padding-top:6px}
+.btn{display:block;text-align:center;text-decoration:none;padding:10px;border-radius:9px;font-size:13px;
+  font-weight:600;color:#000;background:linear-gradient(90deg,var(--turq),var(--teal));border:0;
+  cursor:pointer;font-family:inherit;width:100%}
+.btn:active{opacity:.82}
+.state{text-align:center;color:var(--muted);padding:56px 16px;font-size:14px;line-height:1.6}
+footer{text-align:center;color:#5a5a5a;font-size:12.5px;padding:40px 0 0;line-height:1.7}
+footer a{color:var(--turq);text-decoration:none}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);
+  background:var(--turq);color:#000;font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;
+  transition:transform .25s;z-index:60;max-width:90vw;text-align:center}
+.toast.on{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="data:image/png;base64,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" alt="Data Club">
+    <h1>CATÁLOGO</h1>
+    <div class="rule"></div>
+    <p class="sub">Camisetas y shorts de clubes y selecciones<br>
+      <b>Paraná, Entre Ríos</b> · Pedidos por WhatsApp</p>
+  </header>
+
+  <div class="bar">
+    <input type="search" id="q" placeholder="Buscá tu equipo…" autocomplete="off">
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <p class="count" id="count"></p>
+  <div class="grid" id="grid"></div>
+  <div class="state" id="state">Cargando el catálogo…</div>
+
+  <footer>
+    Data Club · Paraná, Entre Ríos<br>
+    <a href="https://instagram.com/data.club10">@data.club10</a>
+  </footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SHEET_ID = "19bg-1XTt5DF_C3qvKXF6Nqs4MHYdTQ0xRzvd3V5RZw8";
+const CSV = "https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:csv&sheet=Catalogo";
+const IG = "data.club10";
+// Pegá acá el número de WhatsApp con código de país, solo dígitos. Ej: 5493434123456
+const WA = "5493434068333";
+const FALLBACK = [{"orden": 1, "mostrar": "SI", "club": "River Plate", "modelo": "Titular", "calidad": "Estándar", "tipo": "Camiseta", "talles": "S · M · L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 2, "mostrar": "SI", "club": "River Plate", "modelo": "Tercera", "calidad": "Estándar", "tipo": "Camiseta", "talles": "S · M · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 3, "mostrar": "SI", "club": "Boca Juniors", "modelo": "Titular", "calidad": "Estándar", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 4, "mostrar": "SI", "club": "Boca Juniors", "modelo": "Suplente", "calidad": "Estándar", "tipo": "Camiseta", "talles": "S · M · XL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 5, "mostrar": "SI", "club": "Racing", "modelo": "Titular", "calidad": "Estándar", "tipo": "Camiseta", "talles": "L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 6, "mostrar": "SI", "club": "Manchester City", "modelo": "Titular (Enzo)", "calidad": "Estándar", "tipo": "Camiseta", "talles": "L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 7, "mostrar": "SI", "club": "Boca Juniors", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 8, "mostrar": "SI", "club": "Juventus", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 9, "mostrar": "SI", "club": "Liverpool", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "S · M", "precio": 47000, "foto": "", "nota": ""}, {"orden": 10, "mostrar": "SI", "club": "Barcelona", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 11, "mostrar": "SI", "club": "Barcelona", "modelo": "Titular G5", "calidad": "Premium", "tipo": "Camiseta", "talles": "XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 12, "mostrar": "SI", "club": "Real Madrid", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 13, "mostrar": "SI", "club": "Real Madrid", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "L", "precio": 47000, "foto": "", "nota": ""}, {"orden": 14, "mostrar": "SI", "club": "Arsenal", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 15, "mostrar": "SI", "club": "Manchester United", "modelo": "Retro blanca", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 16, "mostrar": "SI", "club": "Manchester United", "modelo": "Retro roja", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 17, "mostrar": "SI", "club": "Manchester United", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 18, "mostrar": "SI", "club": "Bayern Munich", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 19, "mostrar": "SI", "club": "Atlético Madrid", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 20, "mostrar": "SI", "club": "PSG", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 21, "mostrar": "SI", "club": "España", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L", "precio": 47000, "foto": "", "nota": ""}, {"orden": 22, "mostrar": "SI", "club": "Inter", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L", "precio": 47000, "foto": "", "nota": ""}, {"orden": 23, "mostrar": "SI", "club": "Inter", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 24, "mostrar": "SI", "club": "Milan", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 25, "mostrar": "SI", "club": "Portugal", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 26, "mostrar": "SI", "club": "Chelsea", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 27, "mostrar": "SI", "club": "Chelsea", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 28, "mostrar": "SI", "club": "Brasil", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 29, "mostrar": "SI", "club": "Roma", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 30, "mostrar": "SI", "club": "Portugal", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "L", "precio": 42000, "foto": "", "nota": ""}, {"orden": 31, "mostrar": "SI", "club": "Manchester United", "modelo": "Titular blanco", "calidad": "Premium", "tipo": "Short", "talles": "XXL", "precio": 42000, "foto": "", "nota": ""}, {"orden": 32, "mostrar": "SI", "club": "PSG", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "XL", "precio": 42000, "foto": "", "nota": ""}, {"orden": 33, "mostrar": "SI", "club": "Tottenham", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "L", "precio": 42000, "foto": "", "nota": ""}, {"orden": 34, "mostrar": "SI", "club": "España", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "XXL", "precio": 42000, "foto": "", "nota": ""}, {"orden": 35, "mostrar": "SI", "club": "Real Madrid", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "M", "precio": 42000, "foto": "", "nota": ""}];
+
+function parseCSV(text){
+  const rows=[]; let row=[], cur="", q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){
+      if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; }
+      else cur+=c;
+    } else if(c==='"') q=true;
+    else if(c===','){ row.push(cur); cur=""; }
+    else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=""; }
+    else if(c!=='\r') cur+=c;
+  }
+  if(cur.length||row.length){ row.push(cur); rows.push(row); }
+  return rows.filter(r=>r.some(c=>c.trim()!==""));
+}
+function money(v){
+  if(v==null) return "";
+  const s=String(v);
+  const n=parseInt(s.replace(/[^0-9]/g,""),10);
+  if(!isFinite(n)||n===0) return s.trim();
+  return "$"+n.toLocaleString("es-AR");
+}
+function fromRows(rows){
+  const head=rows[0].map(h=>h.trim().toLowerCase());
+  const ix=n=>head.findIndex(h=>h.startsWith(n));
+  const c={orden:ix("orden"),mostrar:ix("mostrar"),club:ix("club"),modelo:ix("modelo"),
+    calidad:ix("calidad"),tipo:ix("tipo"),talles:ix("talles"),precio:ix("precio"),
+    foto:ix("foto"),nota:ix("nota")};
+  return rows.slice(1).map(r=>({
+    orden:parseFloat(r[c.orden])||999, mostrar:(r[c.mostrar]||"SI").trim(),
+    club:(r[c.club]||"").trim(), modelo:(r[c.modelo]||"").trim(),
+    calidad:(r[c.calidad]||"").trim(), tipo:(r[c.tipo]||"").trim(),
+    talles:(r[c.talles]||"").trim(), precio:(r[c.precio]||"").trim(),
+    foto:(r[c.foto]||"").trim(), nota:(r[c.nota]||"").trim()
+  }));
+}
+
+let DATA=[], filtro="todo", texto="";
+const FILTROS=[["todo","Todo"],["camiseta","Camisetas"],["short","Shorts"],
+               ["estándar","Estándar"],["premium","Premium"]];
+
+function chips(){
+  document.getElementById("chips").innerHTML = FILTROS.map(([k,l])=>
+    `<button class="chip" data-k="${k}" aria-pressed="${k===filtro}">${l}</button>`).join("");
+}
+function visibles(){
+  return DATA.filter(d=>{
+    if(String(d.mostrar).toUpperCase().indexOf("NO")===0) return false;
+    if(!d.club) return false;
+    if(filtro==="camiseta"&&d.tipo.toLowerCase()!=="camiseta") return false;
+    if(filtro==="short"&&d.tipo.toLowerCase()!=="short") return false;
+    if(filtro==="estándar"&&d.calidad.toLowerCase().indexOf("est")!==0) return false;
+    if(filtro==="premium"&&d.calidad.toLowerCase().indexOf("pre")!==0) return false;
+    if(texto){
+      const t=(d.club+" "+d.modelo+" "+d.tipo+" "+d.calidad+" "+d.talles).toLowerCase();
+      if(t.indexOf(texto)<0) return false;
+    }
+    return true;
+  }).sort((a,b)=>a.orden-b.orden);
+}
+function nombre(d){
+  const art = d.tipo.toLowerCase()==="short" ? "el short" : "la camiseta";
+  const cal = d.calidad ? " ("+d.calidad+")" : "";
+  return art+" de "+d.club+" "+d.modelo+cal;
+}
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+
+function render(){
+  const list=visibles(), grid=document.getElementById("grid"), st=document.getElementById("state");
+  document.getElementById("count").textContent =
+    list.length+(list.length===1?" modelo disponible":" modelos disponibles");
+  if(!list.length){
+    grid.innerHTML=""; st.style.display="block";
+    st.textContent="No encontramos nada con esa búsqueda. Probá con el nombre del club.";
+    return;
+  }
+  st.style.display="none";
+  grid.innerHTML=list.map(d=>{
+    const sizes=d.talles.split(/[·,/|]+/).map(s=>s.trim()).filter(Boolean);
+    const pre=d.calidad.toLowerCase().indexOf("pre")===0;
+    const img=d.foto
+      ? `<img src="${esc(d.foto)}" alt="${esc(d.club+" "+d.modelo)}" loading="lazy"
+           onerror="this.parentNode.innerHTML=NOIMG">`
+      : NOIMG;
+    return `<article class="card">
+      <div class="ph">${img}
+        ${d.nota?`<div class="tag">${esc(d.nota)}</div>`:""}
+        <div class="qual${pre?" pre":""}">${esc(d.calidad||d.tipo)}</div>
+      </div>
+      <div class="body">
+        <div class="club">${esc(d.club)}</div>
+        <div class="model">${esc(d.modelo)}${d.tipo.toLowerCase()==="short"?" · Short":""}</div>
+        <div class="sizes">${sizes.length
+            ? sizes.map(s=>`<button class="sz" data-prenda="${esc(nombre(d))}" data-talle="${esc(s)}">${esc(s)}</button>`).join("")
+            : `<button class="sz" data-prenda="${esc(nombre(d))}" data-talle="">Consultar</button>`}</div>
+        <div class="hint">${sizes.length?"Tocá tu talle para pedirla":"Escribinos por WhatsApp"}</div>
+        <div class="price">${esc(money(d.precio))}</div>
+      </div></article>`;
+  }).join("");
+}
+const NOIMG=`<div class="noimg"><svg width="46" height="46" viewBox="0 0 24 24" fill="none"
+  stroke="currentColor" stroke-width="1.4"><path d="M12 2l8 3v6c0 5-3.4 9-8 11-4.6-2-8-6-8-11V5z"/></svg>
+  <span>Foto en camino</span></div>`;
+
+function toast(m){
+  const t=document.getElementById("toast");
+  t.textContent=m; t.classList.add("on");
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("on"),2600);
+}
+document.addEventListener("click",e=>{
+  const chip=e.target.closest(".chip");
+  if(chip){ filtro=chip.dataset.k; chips(); render(); return; }
+  const b=e.target.closest("[data-prenda]");
+  if(b){
+    const talle=b.dataset.talle;
+    const msg = talle
+      ? "Hola! Me interesa "+b.dataset.prenda+" en talle "+talle+"."
+      : "Hola! Me interesa "+b.dataset.prenda+".";
+    if(!WA){ toast("Falta cargar el número de WhatsApp"); return; }
+    const a=document.createElement("a");
+    a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(msg);
+    a.target="_blank"; a.rel="noopener";
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+});
+document.getElementById("q").addEventListener("input",e=>{
+  texto=e.target.value.trim().toLowerCase(); render();
+});
+
+(async function(){
+  chips();
+  try{
+    const r=await fetch(CSV+"&_="+Date.now(),{cache:"no-store"});
+    if(!r.ok) throw new Error(r.status);
+    const rows=parseCSV(await r.text());
+    if(rows.length<2) throw new Error("vacio");
+    DATA=fromRows(rows);
+  }catch(err){
+    DATA=FALLBACK;
+  }
+  render();
+})();
+</script>
+</body>
+</html>
