@@ -265,3 +265,4 @@ footer .fnav a:hover{color:var(--turq)}
 .loc:focus{outline:none;border-color:var(--teal)}
 .qual.ret{border-color:#8a6a2b;color:#e8c377}
 .fqual.ret{border-color:#8a6a2b;color:#e8c377}
+.dors{font-size:11px;color:var(--turq);margin-top:-2px;letter-spacing:.02em}

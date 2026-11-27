@@ -68,14 +68,15 @@ function fromRows(rows){
   const ix=n=>head.findIndex(h=>h.startsWith(n));
   const c={orden:ix("orden"),mostrar:ix("mostrar"),club:ix("club"),modelo:ix("modelo"),
     calidad:ix("calidad"),tipo:ix("tipo"),talles:ix("talles"),precio:ix("precio"),
-    foto:ix("foto"),nota:ix("nota"),descripcion:ix("descrip")};
+    foto:ix("foto"),nota:ix("nota"),descripcion:ix("descrip"),dorsal:ix("dorsal")};
   return rows.slice(1).map(r=>({
     orden:parseFloat(r[c.orden])||999, mostrar:(r[c.mostrar]||"SI").trim(),
     club:(r[c.club]||"").trim(), modelo:(r[c.modelo]||"").trim(),
     calidad:(r[c.calidad]||"").trim(), tipo:(r[c.tipo]||"").trim(),
     talles:(r[c.talles]||"").trim(), precio:(r[c.precio]||"").trim(),
     foto:(r[c.foto]||"").trim(), nota:(r[c.nota]||"").trim(),
-    descripcion:(r[c.descripcion]||"").trim()
+    descripcion:(r[c.descripcion]||"").trim(),
+    dorsal:(r[c.dorsal]||"").trim()
   }));
 }
 const NOIMG=`<div class="noimg"><svg width="46" height="46" viewBox="0 0 24 24" fill="none"
@@ -91,8 +92,10 @@ function visibles(){
     if(filtro==="est\u00e1ndar"&&d.calidad.toLowerCase().indexOf("est")!==0) return false;
     if(filtro==="premium"&&d.calidad.toLowerCase().indexOf("pre")!==0) return false;
     if(filtro==="retro"&&d.calidad.toLowerCase().indexOf("ret")!==0) return false;
+    if(filtro==="dorsal"&&!d.dorsal) return false;
+    if(filtro==="lisa"&&d.dorsal) return false;
     if(texto){
-      const t=(d.club+" "+d.modelo+" "+d.tipo+" "+d.calidad+" "+d.talles).toLowerCase();
+      const t=(d.club+" "+d.modelo+" "+d.tipo+" "+d.calidad+" "+d.talles+" "+(d.dorsal||"")).toLowerCase();
       if(t.indexOf(texto)<0) return false;
     }
     return true;
@@ -131,6 +134,7 @@ function tarjeta(d){
     +'<div class="body">'
     +'<button class="club lk" data-ficha="'+esc(slug(d))+'">'+esc(d.club)+'</button>'
     +'<div class="model">'+esc(d.modelo)+(d.tipo.toLowerCase()==="short"?" \u00b7 Short":"")+'</div>'
+    +(dorsalTxt(d)?'<div class="dors">Dorsal '+esc(dorsalTxt(d))+'</div>':'')
     +'<div class="sizes">'
     +(ts.length ? ts.map(x=>botonTalle(d,x)).join("")
       : '<button class="sz" data-consulta="1" data-prenda="'+esc(nombre(d))+'">Consultar</button>')
@@ -154,13 +158,15 @@ function fichaHTML(d){
   const desc = d.descripcion
     ? esc(d.descripcion)
     : (cap(d.tipo)+" de "+d.club+" "+d.modelo+(d.calidad?" \u00b7 "+d.calidad:"")
+       +(d.dorsal?" \u00b7 con dorsal "+d.dorsal:" \u00b7 lisa")
        +" \u00b7 tela versi\u00f3n jugador. Antes de cerrar la compra te mandamos fotos y video "
        +"de la prenda exacta que te llev\u00e1s.");
   return '<div class="fbody"><div class="fgal"><div class="fmain">'+main+'</div>'+thumbs+'</div>'
     +'<div class="finfo">'
     +'<div class="fqual'+q+'">'+esc(d.calidad||d.tipo)+'</div>'
     +'<h2 class="fclub">'+esc(d.club)+'</h2>'
-    +'<div class="fmod">'+esc(d.modelo)+' \u00b7 '+esc(cap(d.tipo))+'</div>'
+    +'<div class="fmod">'+esc(d.modelo)+' \u00b7 '+esc(cap(d.tipo))
+    +(dorsalTxt(d)?' \u00b7 Dorsal '+esc(dorsalTxt(d)):'')+'</div>'
     +'<div class="fprice">'+esc(money(d.precio))+'</div>'
     +'<div class="flab">Talles disponibles</div>'
     +'<div class="sizes">'
@@ -189,9 +195,20 @@ function cerrarFicha(){
 }
 function chips(){
   const c=document.getElementById("chips"); if(!c) return;
-  c.innerHTML=[["todo","Todo"],["camiseta","Camisetas"],["short","Shorts"],
-    ["est\u00e1ndar","Est\u00e1ndar"],["premium","Premium"],["retro","Retro"]]
-    .map(([k,l])=>'<button class="chip" data-k="'+k+'" aria-pressed="'+(k===filtro)+'">'+l+'</button>').join("");
+  const hayDorsal=DATA.some(d=>d.dorsal);
+  const hayRetro =DATA.some(d=>(d.calidad||"").toLowerCase().indexOf("ret")===0);
+  const l=[["todo","Todo"],["camiseta","Camisetas"],["short","Shorts"]];
+  if(hayDorsal) l.push(["lisa","Lisas"],["dorsal","Con dorsal"]);
+  l.push(["est\u00e1ndar","Est\u00e1ndar"],["premium","Premium"]);
+  if(hayRetro) l.push(["retro","Retro"]);
+  c.innerHTML=l.map(([k,t])=>'<button class="chip" data-k="'+k+'" aria-pressed="'
+    +(k===filtro)+'">'+t+'</button>').join("");
+}
+/* el dorsal solo se muestra si el modelo no lo nombra ya */
+function dorsalTxt(d){
+  if(!d.dorsal) return "";
+  const m=(d.modelo||"").toLowerCase(), p=d.dorsal.toLowerCase().split(/\s+/)[0];
+  return m.indexOf(p)>=0 ? "" : d.dorsal;
 }
 function render(){
   const grid=document.getElementById("grid");
@@ -401,6 +418,7 @@ if(qin) qin.addEventListener("input",e=>{ texto=e.target.value.trim().toLowerCas
     if(rows.length<2) throw new Error("vacio");
     DATA=fromRows(rows);
   }catch(err){ DATA=FALLBACK; }
+  chips();
   render();
   const sl=new URLSearchParams(location.search).get("p");
   if(sl) ficha(sl);
