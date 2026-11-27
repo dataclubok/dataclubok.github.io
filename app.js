@@ -25,11 +25,19 @@ function slug(d){
     .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
 }
 /* "S \u00b7 M(1) \u00b7 XL" -> [{t:"S",q:null},{t:"M",q:1},{t:"XL",q:null}] */
+/* "M" = 1 unidad. "M(3)" = 3. "M(0)" = sin stock, no se muestra. */
 function talles(d){
   return String(d.talles||"").split(/[\u00b7,/|]+/).map(x=>x.trim()).filter(Boolean).map(x=>{
     const m=x.match(/^(.+?)\s*\((\d+)\)$/);
-    return m ? {t:m[1].trim(), q:parseInt(m[2],10)} : {t:x, q:null};
-  });
+    return m ? {t:m[1].trim(), q:parseInt(m[2],10), exp:true} : {t:x, q:1, exp:false};
+  }).filter(x=>x.q>0);
+}
+/* stock de un talle, buscado en los datos vivos; si no esta, el guardado */
+function stockDe(x){
+  const d=DATA.filter(p=>p.club===x.club&&p.modelo===x.modelo
+    &&(p.calidad||"")===(x.cal||"")&&p.tipo===x.tipo)[0];
+  if(d){ const t=talles(d).filter(z=>z.t===x.talle)[0]; return t?t.q:0; }
+  return x.max||1;
 }
 let FOTOS={};
 const dUrl=(id,w)=>"https://lh3.googleusercontent.com/d/"+id+"=w"+w;
@@ -108,13 +116,14 @@ function qualCls(d){
   return "";
 }
 function botonTalle(d,x){
-  return '<button class="sz'+(x.q===1?" last":"")+'" aria-pressed="false" data-club="'+esc(d.club)
+  const ult=x.exp&&x.q===1;
+  return '<button class="sz'+(ult?" last":"")+'" aria-pressed="false" data-club="'+esc(d.club)
     +'" data-modelo="'+esc(d.modelo)+'" data-cal="'+esc(d.calidad)+'" data-tipo="'+esc(d.tipo)
-    +'" data-talle="'+esc(x.t)+'" data-precio="'+num(d.precio)+'"'
-    +(x.q===1?' title="\u00daltimo disponible"':'')+'>'+esc(x.t)+'</button>';
+    +'" data-talle="'+esc(x.t)+'" data-precio="'+num(d.precio)+'" data-stock="'+x.q+'"'
+    +(ult?' title="\u00daltimo disponible"':'')+'>'+esc(x.t)+'</button>';
 }
 function ultimos(ts){
-  const u=ts.filter(x=>x.q===1).map(x=>x.t);
+  const u=ts.filter(x=>x.exp&&x.q===1).map(x=>x.t);
   if(!u.length) return "";
   return '<div class="last-l">'+(u.length===1?"\u00daltimo en talle ":"\u00daltimos en talle ")
     +esc(u.join(" \u00b7 "))+'</div>';
@@ -253,16 +262,29 @@ function cartLoad(){
 }
 function cartSave(){ try{localStorage.setItem(CART_KEY,JSON.stringify(CART));}catch(e){} }
 function titulo(x){ return cap(x.tipo||"Prenda")+" "+x.club+" "+x.modelo+(x.cal?" ("+x.cal+")":""); }
+function sinStock(n){
+  toast(n===1 ? "Queda una sola unidad de ese talle"
+              : "Solo hay "+n+" unidades de ese talle");
+}
 function cartAdd(o){
   const k=[o.club,o.modelo,o.cal,o.tipo,o.talle].join("|");
   const f=CART.filter(x=>x.k===k)[0];
-  if(f){ f.q++; } else { CART.push({k:k,club:o.club,modelo:o.modelo,cal:o.cal,
-    tipo:o.tipo,talle:o.talle,precio:o.precio,q:1}); }
+  const max=o.max||1;
+  if(f){
+    if(f.q>=Math.max(stockDe(f),1)){ sinStock(stockDe(f)); return false; }
+    f.q++; f.max=max;
+  } else {
+    if(max<1){ sinStock(0); return false; }
+    CART.push({k:k,club:o.club,modelo:o.modelo,cal:o.cal,
+      tipo:o.tipo,talle:o.talle,precio:o.precio,max:max,q:1});
+  }
   cartSave(); cartPaint();
   fb("AddToCart",{content_name:titulo(o),value:o.precio||0,currency:"ARS"});
+  return true;
 }
 function cartQty(k,d){
   const f=CART.filter(x=>x.k===k)[0]; if(!f) return;
+  if(d>0 && f.q>=Math.max(stockDe(f),1)){ sinStock(stockDe(f)); return; }
   f.q+=d; if(f.q<1) CART=CART.filter(x=>x.k!==k);
   cartSave(); cartPaint(); if(!CART.length) sheet(false);
 }
@@ -284,7 +306,8 @@ function cartPaint(){
     +'<div class="qty">'
     +'<button data-q="-1" data-k="'+esc(x.k)+'" aria-label="Quitar uno">\u2212</button>'
     +'<span>'+x.q+'</span>'
-    +'<button data-q="1" data-k="'+esc(x.k)+'" aria-label="Agregar uno">+</button>'
+    +'<button class="'+(x.q>=Math.max(stockDe(x),1)?"off":"")+'" data-q="1" data-k="'
+    +esc(x.k)+'" aria-label="Agregar uno">+</button>'
     +'<button class="rm" data-del="'+esc(x.k)+'">Quitar</button>'
     +'</div></div>'
     +'<div class="it-p">'+(x.precio?money(x.precio*x.q):"a confirmar")+'</div></div>').join("");
@@ -425,9 +448,10 @@ document.addEventListener("click",e=>{
     const caja=add.closest(".body")||add.closest(".finfo"); if(!caja) return;
     const sel=caja.querySelector('.sz[aria-pressed="true"]');
     if(!sel){ toast("Eleg\u00ed un talle primero"); return; }
-    cartAdd({club:sel.dataset.club,modelo:sel.dataset.modelo,cal:sel.dataset.cal,
-             tipo:sel.dataset.tipo,talle:sel.dataset.talle,precio:num(sel.dataset.precio)});
-    toast("Agregado a tu pedido \u00b7 talle "+sel.dataset.talle);
+    const ok=cartAdd({club:sel.dataset.club,modelo:sel.dataset.modelo,cal:sel.dataset.cal,
+             tipo:sel.dataset.tipo,talle:sel.dataset.talle,precio:num(sel.dataset.precio),
+             max:num(sel.dataset.stock)||1});
+    if(ok) toast("Agregado a tu pedido \u00b7 talle "+sel.dataset.talle);
   }
 });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ sheet(false); cerrarFicha(); } });

@@ -98,8 +98,8 @@ PASOS = u"""
     <div class="steps">
       <div class="step">
         <h3>Elegí tu talle</h3>
-        <p>Entrá a Productos, buscá el modelo y tocá el talle. Se suma a tu pedido,
-           y podés agregar todas las prendas que quieras.</p>
+        <p>Entrá a Productos, buscá el modelo, elegí el talle y tocá Agregar a mi pedido.
+           Podés sumar todas las prendas que quieras antes de mandarlo.</p>
       </div>
       <div class="step">
         <h3>Mirala antes de pagar</h3>
@@ -169,7 +169,7 @@ PRODUCTOS = u"""
     <h1>PRODUCTOS</h1>
     <div class="rule"></div>
     <p class="sub">Todas las prendas son <b>versión jugador</b>.
-       Tocá el talle que querés y se suma a tu pedido: podés juntar varias
+       Elegí tu talle y agregalo al pedido: podés juntar varias prendas
        y mandarlas todas juntas por WhatsApp.</p>
   </div>
 
