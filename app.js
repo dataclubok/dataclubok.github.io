@@ -19,6 +19,21 @@ function money(v){
   if(!isFinite(n)||n===0) return s.trim();
   return "$"+n.toLocaleString("es-AR");
 }
+function slug(d){
+  return (d.club+"-"+d.modelo+"-"+d.tipo+"-"+(d.calidad||"")).toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+}
+/* "S \u00b7 M(1) \u00b7 XL" -> [{t:"S",q:null},{t:"M",q:1},{t:"XL",q:null}] */
+function talles(d){
+  return String(d.talles||"").split(/[\u00b7,/|]+/).map(x=>x.trim()).filter(Boolean).map(x=>{
+    const m=x.match(/^(.+?)\s*\((\d+)\)$/);
+    return m ? {t:m[1].trim(), q:parseInt(m[2],10)} : {t:x, q:null};
+  });
+}
+function fotos(d){
+  return String(d.foto||"").split(/[\s,]+/).map(x=>x.trim()).filter(x=>/^https?:/i.test(x));
+}
 function nombre(d){
   const art = d.tipo.toLowerCase()==="short" ? "el short" : "la camiseta";
   const cal = d.calidad ? " ("+d.calidad+")" : "";
@@ -48,13 +63,14 @@ function fromRows(rows){
   const ix=n=>head.findIndex(h=>h.startsWith(n));
   const c={orden:ix("orden"),mostrar:ix("mostrar"),club:ix("club"),modelo:ix("modelo"),
     calidad:ix("calidad"),tipo:ix("tipo"),talles:ix("talles"),precio:ix("precio"),
-    foto:ix("foto"),nota:ix("nota")};
+    foto:ix("foto"),nota:ix("nota"),descripcion:ix("descrip")};
   return rows.slice(1).map(r=>({
     orden:parseFloat(r[c.orden])||999, mostrar:(r[c.mostrar]||"SI").trim(),
     club:(r[c.club]||"").trim(), modelo:(r[c.modelo]||"").trim(),
     calidad:(r[c.calidad]||"").trim(), tipo:(r[c.tipo]||"").trim(),
     talles:(r[c.talles]||"").trim(), precio:(r[c.precio]||"").trim(),
-    foto:(r[c.foto]||"").trim(), nota:(r[c.nota]||"").trim()
+    foto:(r[c.foto]||"").trim(), nota:(r[c.nota]||"").trim(),
+    descripcion:(r[c.descripcion]||"").trim()
   }));
 }
 const NOIMG=`<div class="noimg"><svg width="46" height="46" viewBox="0 0 24 24" fill="none"
@@ -76,27 +92,87 @@ function visibles(){
     return true;
   }).sort((a,b)=>a.orden-b.orden);
 }
+function botonTalle(d,x){
+  return '<button class="sz'+(x.q===1?" last":"")+'" data-club="'+esc(d.club)
+    +'" data-modelo="'+esc(d.modelo)+'" data-cal="'+esc(d.calidad)+'" data-tipo="'+esc(d.tipo)
+    +'" data-talle="'+esc(x.t)+'" data-precio="'+num(d.precio)+'"'
+    +(x.q===1?' title="\u00daltimo disponible"':'')+'>'+esc(x.t)+'</button>';
+}
+function ultimos(ts){
+  const u=ts.filter(x=>x.q===1).map(x=>x.t);
+  if(!u.length) return "";
+  return '<div class="last-l">'+(u.length===1?"\u00daltimo en talle ":"\u00daltimos en talle ")
+    +esc(u.join(" \u00b7 "))+'</div>';
+}
 function tarjeta(d){
-  const sizes=d.talles.split(/[\u00b7,/|]+/).map(s=>s.trim()).filter(Boolean);
+  const ts=talles(d), fs=fotos(d);
   const pre=d.calidad.toLowerCase().indexOf("pre")===0;
-  const img=d.foto
-    ? '<img src="'+esc(d.foto)+'" alt="'+esc(d.club+" "+d.modelo)+'" loading="lazy" '
+  const img=fs.length
+    ? '<img src="'+esc(fs[0])+'" alt="'+esc(d.club+" "+d.modelo)+'" loading="lazy" '
       +'onerror="this.parentNode.innerHTML=NOIMG">'
     : NOIMG;
-  return '<article class="card"><div class="ph">'+img
+  return '<article class="card"><button class="ph" data-ficha="'+esc(slug(d))+'" '
+    +'aria-label="Ver '+esc(d.club+" "+d.modelo)+'">'+img
     +(d.nota?'<div class="tag">'+esc(d.nota)+'</div>':'')
-    +'<div class="qual'+(pre?' pre':'')+'">'+esc(d.calidad||d.tipo)+'</div></div>'
-    +'<div class="body"><div class="club">'+esc(d.club)+'</div>'
+    +(fs.length>1?'<div class="nfotos">'+fs.length+' fotos</div>':'')
+    +'<div class="qual'+(pre?' pre':'')+'">'+esc(d.calidad||d.tipo)+'</div></button>'
+    +'<div class="body">'
+    +'<button class="club lk" data-ficha="'+esc(slug(d))+'">'+esc(d.club)+'</button>'
     +'<div class="model">'+esc(d.modelo)+(d.tipo.toLowerCase()==="short"?" \u00b7 Short":"")+'</div>'
     +'<div class="sizes">'
-    +(sizes.length
-      ? sizes.map(s=>'<button class="sz" data-club="'+esc(d.club)+'" data-modelo="'+esc(d.modelo)
-          +'" data-cal="'+esc(d.calidad)+'" data-tipo="'+esc(d.tipo)+'" data-talle="'+esc(s)
-          +'" data-precio="'+num(d.precio)+'">'+esc(s)+'</button>').join("")
+    +(ts.length ? ts.map(x=>botonTalle(d,x)).join("")
       : '<button class="sz" data-consulta="1" data-prenda="'+esc(nombre(d))+'">Consultar</button>')
-    +'</div>'
-    +'<div class="hint">'+(sizes.length?"Toc\u00e1 tu talle para agregarlo":"Escribinos por WhatsApp")+'</div>'
+    +'</div>'+ultimos(ts)
+    +'<div class="hint">'+(ts.length?"Toc\u00e1 tu talle para agregarlo":"Escribinos por WhatsApp")+'</div>'
     +'<div class="price">'+esc(money(d.precio))+'</div></div></article>';
+}
+
+/* ---------- ficha de producto ---------- */
+let FOTO=0, FICHA=null;
+function fichaHTML(d){
+  const ts=talles(d), fs=fotos(d);
+  const pre=d.calidad.toLowerCase().indexOf("pre")===0;
+  const main=fs.length
+    ? '<img id="fimg" src="'+esc(fs[FOTO]||fs[0])+'" alt="'+esc(d.club+" "+d.modelo)+'">'
+    : NOIMG;
+  const thumbs = fs.length>1
+    ? '<div class="fthumbs">'+fs.map((u,i)=>'<button data-foto="'+i+'" aria-pressed="'+(i===FOTO)+'">'
+        +'<img src="'+esc(u)+'" alt=""></button>').join("")+'</div>'
+    : "";
+  const desc = d.descripcion
+    ? esc(d.descripcion)
+    : (cap(d.tipo)+" de "+d.club+" "+d.modelo+", calidad "+(d.calidad||"est\u00e1ndar").toLowerCase()
+       +". Antes de cerrar la compra te mandamos fotos y video de la prenda exacta que te llev\u00e1s.");
+  return '<div class="fbody"><div class="fgal"><div class="fmain">'+main+'</div>'+thumbs+'</div>'
+    +'<div class="finfo">'
+    +'<div class="fqual'+(pre?' pre':'')+'">'+esc(d.calidad||d.tipo)+'</div>'
+    +'<h2 class="fclub">'+esc(d.club)+'</h2>'
+    +'<div class="fmod">'+esc(d.modelo)+' \u00b7 '+esc(cap(d.tipo))+'</div>'
+    +'<div class="fprice">'+esc(money(d.precio))+'</div>'
+    +'<div class="flab">Talles disponibles</div>'
+    +'<div class="sizes">'
+    +(ts.length ? ts.map(x=>botonTalle(d,x)).join("")
+      : '<button class="sz" data-consulta="1" data-prenda="'+esc(nombre(d))+'">Consultar</button>')
+    +'</div>'+ultimos(ts)
+    +'<p class="fdesc">'+desc+'</p>'
+    +'<button class="btn" id="verpedido">Ver mi pedido</button>'
+    +'<button class="seguir" id="copiar" data-slug="'+esc(slug(d))+'">Copiar link de este producto</button>'
+    +'</div></div>';
+}
+function ficha(sl){
+  const d=DATA.filter(x=>slug(x)===sl)[0];
+  const box=document.getElementById("ficha"); if(!d||!box) return;
+  FICHA=d; FOTO=0;
+  document.getElementById("fcont").innerHTML=fichaHTML(d);
+  box.classList.add("on"); document.getElementById("ov2").classList.add("on");
+  document.body.style.overflow="hidden";
+  try{ history.replaceState(null,"","?p="+encodeURIComponent(sl)); }catch(e){}
+}
+function cerrarFicha(){
+  const box=document.getElementById("ficha"); if(!box) return;
+  box.classList.remove("on"); document.getElementById("ov2").classList.remove("on");
+  document.body.style.overflow=""; FICHA=null;
+  try{ history.replaceState(null,"",location.pathname); }catch(e){}
 }
 function chips(){
   const c=document.getElementById("chips"); if(!c) return;
@@ -170,6 +246,7 @@ function cartPaint(){
     +'<div class="it-p">'+(x.precio?money(x.precio*x.q):"a confirmar")+'</div></div>').join("");
   const t=cartTotal();
   ft.innerHTML='<div class="tot"><span>Total</span><b>'+(t?money(t):"a confirmar")+'</b></div>'
+    +entregaHTML()
     +'<button class="btn" id="pedir">Hacer el pedido por WhatsApp</button>'
     +'<button class="seguir" id="seguir">Seguir mirando</button>';
 }
@@ -186,12 +263,38 @@ function waOpen(msg){
   a.target="_blank"; a.rel="noopener";
   document.body.appendChild(a); a.click(); a.remove();
 }
+const ENTREGAS={
+  retiro:"Retiro en Paran\u00e1",
+  moto:"Env\u00edo dentro de Paran\u00e1",
+  interior:"Env\u00edo al interior"
+};
+function getEnt(){ try{ return localStorage.getItem("dc_entrega")||""; }catch(e){ return ""; } }
+function getLoc(){ try{ return localStorage.getItem("dc_loc")||""; }catch(e){ return ""; } }
+function setEnt(v){ try{ localStorage.setItem("dc_entrega",v); }catch(e){} }
+function setLoc(v){ try{ localStorage.setItem("dc_loc",v); }catch(e){} }
+function entregaHTML(){
+  const e=getEnt();
+  return '<div class="flab">\u00bfC\u00f3mo lo quer\u00e9s recibir?</div>'
+    +'<div class="ents">'
+    +Object.keys(ENTREGAS).map(k=>'<button class="ent" data-ent="'+k+'" aria-pressed="'
+        +(k===e)+'">'+ENTREGAS[k]+'</button>').join("")
+    +'</div>'
+    +(e==="interior"
+      ? '<input class="loc" id="loc" type="text" placeholder="\u00bfA qu\u00e9 ciudad?" value="'
+        +esc(getLoc())+'">'
+      : "");
+}
 function pedido(){
   const L=CART.map((x,i)=>(i+1)+") "+titulo(x)+" \u00b7 Talle "+(x.talle||"a confirmar")
       +" \u00b7 x"+x.q+(x.precio?" \u00b7 "+money(x.precio*x.q):""));
   let m="Hola Data Club! Te hago un pedido:\n\n"+L.join("\n");
   const t=cartTotal();
   if(t) m+="\n\nTotal: "+money(t);
+  const e=getEnt();
+  if(e){
+    m+="\nEntrega: "+ENTREGAS[e];
+    if(e==="interior"&&getLoc()) m+=" ("+getLoc()+")";
+  }
   return m;
 }
 function toast(m){
@@ -230,6 +333,25 @@ async function instagram(){
 document.addEventListener("click",e=>{
   const chip=e.target.closest(".chip");
   if(chip){ filtro=chip.dataset.k; chips(); render(); return; }
+  const fi=e.target.closest("[data-ficha]");
+  if(fi){ ficha(fi.dataset.ficha); return; }
+  if(e.target.closest("#ov2")||e.target.closest("#fx")){ cerrarFicha(); return; }
+  if(e.target.closest("#verpedido")){ cerrarFicha(); sheet(true); return; }
+  const cp=e.target.closest("#copiar");
+  if(cp){
+    const u=location.origin+"/productos/?p="+encodeURIComponent(cp.dataset.slug);
+    if(navigator.clipboard){ navigator.clipboard.writeText(u).then(
+      ()=>toast("Link copiado"),()=>toast(u)); } else toast(u);
+    return;
+  }
+  const th=e.target.closest("[data-foto]");
+  if(th&&FICHA){
+    FOTO=parseInt(th.dataset.foto,10);
+    document.getElementById("fcont").innerHTML=fichaHTML(FICHA);
+    return;
+  }
+  const en=e.target.closest("[data-ent]");
+  if(en){ setEnt(en.dataset.ent===getEnt()?"":en.dataset.ent); cartPaint(); return; }
   if(e.target.closest("#cartfab")){ sheet(true); return; }
   if(e.target.closest("#ov")||e.target.closest("#shx")||e.target.closest("#seguir")){ sheet(false); return; }
   if(e.target.closest("#pedir")){ waOpen(pedido()); return; }
@@ -245,7 +367,8 @@ document.addEventListener("click",e=>{
     toast("Agregado a tu pedido \u00b7 talle "+sz.dataset.talle);
   }
 });
-document.addEventListener("keydown",e=>{ if(e.key==="Escape") sheet(false); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ sheet(false); cerrarFicha(); } });
+document.addEventListener("input",e=>{ if(e.target.id==="loc") setLoc(e.target.value.trim()); });
 const qin=document.getElementById("q");
 if(qin) qin.addEventListener("input",e=>{ texto=e.target.value.trim().toLowerCase(); render(); });
 
@@ -262,4 +385,6 @@ if(qin) qin.addEventListener("input",e=>{ texto=e.target.value.trim().toLowerCas
     DATA=fromRows(rows);
   }catch(err){ DATA=FALLBACK; }
   render();
+  const sl=new URLSearchParams(location.search).get("p");
+  if(sl) ficha(sl);
 })();
