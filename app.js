@@ -90,12 +90,19 @@ function visibles(){
     if(filtro==="short"&&d.tipo.toLowerCase()!=="short") return false;
     if(filtro==="est\u00e1ndar"&&d.calidad.toLowerCase().indexOf("est")!==0) return false;
     if(filtro==="premium"&&d.calidad.toLowerCase().indexOf("pre")!==0) return false;
+    if(filtro==="retro"&&d.calidad.toLowerCase().indexOf("ret")!==0) return false;
     if(texto){
       const t=(d.club+" "+d.modelo+" "+d.tipo+" "+d.calidad+" "+d.talles).toLowerCase();
       if(t.indexOf(texto)<0) return false;
     }
     return true;
   }).sort((a,b)=>a.orden-b.orden);
+}
+function qualCls(d){
+  const c=(d.calidad||"").toLowerCase();
+  if(c.indexOf("pre")===0) return " pre";
+  if(c.indexOf("ret")===0) return " ret";
+  return "";
 }
 function botonTalle(d,x){
   return '<button class="sz'+(x.q===1?" last":"")+'" data-club="'+esc(d.club)
@@ -111,7 +118,7 @@ function ultimos(ts){
 }
 function tarjeta(d){
   const ts=talles(d), fs=fotos(d,500);
-  const pre=d.calidad.toLowerCase().indexOf("pre")===0;
+  const q=qualCls(d);
   const img=fs.length
     ? '<img src="'+esc(fs[0])+'" alt="'+esc(d.club+" "+d.modelo)+'" loading="lazy" '
       +'onerror="this.parentNode.innerHTML=NOIMG">'
@@ -120,7 +127,7 @@ function tarjeta(d){
     +'aria-label="Ver '+esc(d.club+" "+d.modelo)+'">'+img
     +(d.nota?'<div class="tag">'+esc(d.nota)+'</div>':'')
     +(fs.length>1?'<div class="nfotos">'+fs.length+' fotos</div>':'')
-    +'<div class="qual'+(pre?' pre':'')+'">'+esc(d.calidad||d.tipo)+'</div></button>'
+    +'<div class="qual'+q+'">'+esc(d.calidad||d.tipo)+'</div></button>'
     +'<div class="body">'
     +'<button class="club lk" data-ficha="'+esc(slug(d))+'">'+esc(d.club)+'</button>'
     +'<div class="model">'+esc(d.modelo)+(d.tipo.toLowerCase()==="short"?" \u00b7 Short":"")+'</div>'
@@ -136,7 +143,7 @@ function tarjeta(d){
 let FOTO=0, FICHA=null;
 function fichaHTML(d){
   const ts=talles(d), fs=fotos(d,1100), th=fotos(d,160);
-  const pre=d.calidad.toLowerCase().indexOf("pre")===0;
+  const q=qualCls(d);
   const main=fs.length
     ? '<img id="fimg" src="'+esc(fs[FOTO]||fs[0])+'" alt="'+esc(d.club+" "+d.modelo)+'">'
     : NOIMG;
@@ -146,11 +153,12 @@ function fichaHTML(d){
     : "";
   const desc = d.descripcion
     ? esc(d.descripcion)
-    : (cap(d.tipo)+" de "+d.club+" "+d.modelo+", calidad "+(d.calidad||"est\u00e1ndar").toLowerCase()
-       +". Antes de cerrar la compra te mandamos fotos y video de la prenda exacta que te llev\u00e1s.");
+    : (cap(d.tipo)+" de "+d.club+" "+d.modelo+(d.calidad?" \u00b7 "+d.calidad:"")
+       +" \u00b7 tela versi\u00f3n jugador. Antes de cerrar la compra te mandamos fotos y video "
+       +"de la prenda exacta que te llev\u00e1s.");
   return '<div class="fbody"><div class="fgal"><div class="fmain">'+main+'</div>'+thumbs+'</div>'
     +'<div class="finfo">'
-    +'<div class="fqual'+(pre?' pre':'')+'">'+esc(d.calidad||d.tipo)+'</div>'
+    +'<div class="fqual'+q+'">'+esc(d.calidad||d.tipo)+'</div>'
     +'<h2 class="fclub">'+esc(d.club)+'</h2>'
     +'<div class="fmod">'+esc(d.modelo)+' \u00b7 '+esc(cap(d.tipo))+'</div>'
     +'<div class="fprice">'+esc(money(d.precio))+'</div>'
@@ -182,7 +190,7 @@ function cerrarFicha(){
 function chips(){
   const c=document.getElementById("chips"); if(!c) return;
   c.innerHTML=[["todo","Todo"],["camiseta","Camisetas"],["short","Shorts"],
-    ["est\u00e1ndar","Est\u00e1ndar"],["premium","Premium"]]
+    ["est\u00e1ndar","Est\u00e1ndar"],["premium","Premium"],["retro","Retro"]]
     .map(([k,l])=>'<button class="chip" data-k="'+k+'" aria-pressed="'+(k===filtro)+'">'+l+'</button>').join("");
 }
 function render(){

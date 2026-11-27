@@ -114,14 +114,15 @@ INICIO = u"""
     <img src="/logo.png" alt="Data Club">
     <h1>DATA CLUB</h1>
     <div class="rule"></div>
-    <p class="sub">Camisetas y shorts de clubes y selecciones, actuales y retro.<br>
+    <p class="sub">Camisetas y shorts de clubes y selecciones, actuales y retro.
+      Todas <b>versión jugador</b>.<br>
       <b>Paraná, Entre Ríos</b> · Envíos a todo el país</p>
     <div class="cta">
       <a class="p" href="/productos/">Ver productos</a>
       <a class="g" href="%(wa)s" target="_blank" rel="noopener">Escribinos</a>
     </div>
     <div class="perks">
-      <div class="perk"><b>Dos calidades</b><span>Estándar y Premium, vos elegís</span></div>
+      <div class="perk"><b>Versión jugador</b><span>Toda la ropa que traemos es tela versión jugador</span></div>
       <div class="perk"><b>Envíos</b><span>A todo el país, y en moto dentro de Paraná</span></div>
       <div class="perk"><b>Retiro</b><span>Dos puntos en Paraná, a coordinar</span></div>
     </div>
@@ -161,8 +162,9 @@ PRODUCTOS = u"""
   <div class="phead">
     <h1>PRODUCTOS</h1>
     <div class="rule"></div>
-    <p class="sub">Tocá el talle que querés y se suma a tu pedido.
-       Podés juntar varias prendas y mandarlas todas juntas por WhatsApp.</p>
+    <p class="sub">Todas las prendas son <b>versión jugador</b>.
+       Tocá el talle que querés y se suma a tu pedido: podés juntar varias
+       y mandarlas todas juntas por WhatsApp.</p>
   </div>
 
   <div class="bar">
@@ -187,9 +189,11 @@ NOSOTROS = u"""
       <p>Arrancamos con una idea simple: que ponerte la camiseta de tu equipo no tenga que ser un lujo.
          Traemos camisetas y shorts de clubes y selecciones, actuales y retro, con buena calidad
          y a precios que aguantan cualquier comparación.</p>
-      <p>Manejamos dos calidades, <b>Estándar</b> y <b>Premium</b>, y vamos renovando el stock
-         todo el tiempo. Elegís el modelo, te mandamos fotos y video de la prenda tal cual es,
-         coordinamos la entrega y listo.</p>
+      <p>Manejamos tres categorías de camiseta, <b>Estándar</b>, <b>Premium</b> y <b>Retro</b>,
+         más los shorts, y vamos renovando el stock todo el tiempo. Elegís el modelo,
+         te mandamos fotos y video de la prenda tal cual es, coordinamos la entrega y listo.</p>
+      <p>Una cosa que no cambia nunca: <b>todo lo que traemos es versión jugador</b>,
+         la misma prenda que usan los futbolistas en la cancha.</p>
       <p class="kick">Al final, la camiseta no es una prenda más: es la que te ponés cuando juega el tuyo.</p>
     </div>
   </section>
@@ -304,9 +308,15 @@ FAQ_ITEMS = [
  (u"¿Puedo retirar en persona?",
   u"Sí, en Paraná tenemos dos puntos de retiro, en zona sur y en zona San Agustín. "
   u"Se coordinan antes por WhatsApp."),
- (u"¿Qué diferencia hay entre Estándar y Premium?",
-  u"Son dos calidades distintas. La Premium tiene mejor tela y terminación, y por eso vale un poco más. "
-  u"En cada modelo figura cuál es."),
+ (u"¿Qué es la tela versión jugador?",
+  u"Es la misma prenda que usan los futbolistas en la cancha, distinta de la versión hincha "
+  u"que suele venderse en los locales. La tela es más liviana y respira mejor, el calce es "
+  u"más ajustado al cuerpo, y los escudos y logos van termosellados en lugar de bordados "
+  u"para que pese menos. <b>Todas las camisetas y shorts que trabajamos son versión jugador.</b>"),
+ (u"¿Qué diferencia hay entre Estándar, Premium y Retro?",
+  u"Estándar y Premium son dos niveles de calidad: la Premium tiene mejor tela y terminación, "
+  u"y por eso vale un poco más. Retro son los modelos clásicos de otras épocas. "
+  u"Las tres son versión jugador, y en cada modelo figura cuál es."),
  (u"¿Cómo sé qué talle pedir?",
   u"En cada modelo ves los talles que hay disponibles. Si tenés dudas, escribinos antes de comprar "
   u"y te damos una mano, así no te equivocás."),

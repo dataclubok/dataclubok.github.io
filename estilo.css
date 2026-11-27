@@ -263,3 +263,5 @@ footer .fnav a:hover{color:var(--turq)}
 .loc{width:100%;padding:10px 12px;border-radius:9px;border:1px solid #2b2b2b;background:#0b0b0b;
   color:#fff;font:inherit;font-size:14px;margin-bottom:12px}
 .loc:focus{outline:none;border-color:var(--teal)}
+.qual.ret{border-color:#8a6a2b;color:#e8c377}
+.fqual.ret{border-color:#8a6a2b;color:#e8c377}
