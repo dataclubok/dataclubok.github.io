@@ -154,7 +154,7 @@ const SHEET_ID = "19bg-1XTt5DF_C3qvKXF6Nqs4MHYdTQ0xRzvd3V5RZw8";
 const CSV = "https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:csv&sheet=Catalogo";
 const IG = "data.club1";
 // Feed JSON de Instagram (Behold). Vacio = se muestra el bloque "Seguinos".
-const IG_FEED  = "";
+const IG_FEED  = "https://feeds.behold.so/vnP93odCsrnOKANWCce0";
 const IG_POSTS = 3;
 // Pegá acá el número de WhatsApp con código de país, solo dígitos. Ej: 5493434123456
 const WA = "5493434068333";
@@ -296,10 +296,12 @@ async function instagram(){
     const r=await fetch(IG_FEED,{cache:"no-store"});
     if(!r.ok) throw new Error(r.status);
     const d=await r.json();
-    const posts=(d.posts||[]).slice(0,IG_POSTS);
+    const posts=((d&&d.posts)||(Array.isArray(d)?d:[])).slice(0,IG_POSTS);
     if(!posts.length) throw new Error("sin posts");
     const cel=posts.map(p=>{
-      const img=(p.sizes&&p.sizes.medium&&p.sizes.medium.mediaUrl)||p.thumbnailUrl||p.mediaUrl||"";
+      const z=p.sizes||{};
+      const img=(z.medium&&z.medium.mediaUrl)||(z.full&&z.full.mediaUrl)||(z.small&&z.small.mediaUrl)
+                ||p.thumbnailUrl||p.mediaUrl||"";
       const vid=/VIDEO|REEL/i.test(p.mediaType||"");
       const cap=esc(((p.prunedCaption||p.caption||"").replace(/\s+/g," ")).slice(0,100));
       const url=esc(p.permalink||("https://instagram.com/"+IG));
