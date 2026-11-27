@@ -3,346 +3,91 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data Club · Catálogo</title>
+<title>Data Club · Camisetas y shorts de fútbol</title>
+<meta name="description" content="Camisetas y shorts de clubes y selecciones, actuales y retro. Paraná, Entre Ríos. Envíos a todo el país.">
+<meta property="og:title" content="Data Club · Camisetas y shorts de fútbol">
+<meta property="og:description" content="Camisetas y shorts de clubes y selecciones, actuales y retro. Paraná, Entre Ríos. Envíos a todo el país.">
+<meta property="og:type" content="website">
+<link rel="icon" href="/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#000;--card:#0d0d0d;--line:#1f1f1f;--turq:#5EC1CD;--teal:#117B92;--muted:#8a8a8a}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:#fff;font-family:Archivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1180px;margin:0 auto;padding:0 16px 146px}
-header{text-align:center;padding:34px 0 22px}
-header img{width:62px;height:auto;display:block;margin:0 auto 16px}
-h1{font-family:'Archivo Black',Archivo,sans-serif;font-size:clamp(30px,8vw,46px);letter-spacing:.02em;line-height:1}
-.rule{width:92px;height:5px;margin:14px auto 12px;border-radius:3px;
-  background:linear-gradient(90deg,var(--turq),var(--teal))}
-.sub{color:var(--muted);font-size:13.5px;line-height:1.5}
-.sub b{color:var(--turq);font-weight:600}
-.bar{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.93);
-  backdrop-filter:blur(8px);padding:12px 0 10px;border-bottom:1px solid var(--line)}
-input[type=search]{width:100%;padding:12px 14px;border-radius:11px;border:1px solid var(--line);
-  background:#0b0b0b;color:#fff;font:inherit;font-size:15px}
-input[type=search]::placeholder{color:#5c5c5c}
-input[type=search]:focus{outline:none;border-color:var(--teal)}
-.chips{display:flex;gap:7px;overflow-x:auto;margin-top:10px;padding-bottom:2px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;padding:7px 14px;border-radius:999px;border:1px solid var(--line);
-  background:#0b0b0b;color:#b9b9b9;font-size:13px;cursor:pointer;white-space:nowrap}
-.chip[aria-pressed=true]{background:var(--turq);border-color:var(--turq);color:#000;font-weight:600}
-.count{color:var(--muted);font-size:12.5px;margin:16px 0 10px}
-.grid{display:grid;gap:13px;grid-template-columns:repeat(2,minmax(0,1fr))}
-@media(min-width:680px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(min-width:960px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
-  display:flex;flex-direction:column}
-.ph{position:relative;aspect-ratio:4/5;background:#0a0a0a;overflow:hidden}
-.ph img{width:100%;height:100%;object-fit:cover;display:block}
-.noimg{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:9px;color:#2f2f2f}
-.noimg span{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:#3d3d3d}
-.tag{position:absolute;top:9px;left:9px;background:var(--turq);color:#000;font-size:10.5px;
-  font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:4px 8px;border-radius:5px}
-.qual{position:absolute;top:9px;right:9px;font-size:10px;letter-spacing:.07em;text-transform:uppercase;
-  padding:4px 8px;border-radius:5px;background:rgba(0,0,0,.72);border:1px solid var(--line);color:#c9c9c9}
-.qual.pre{border-color:var(--teal);color:var(--turq)}
-.body{padding:12px 12px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
-.club{font-family:'Archivo Black',Archivo,sans-serif;font-size:14.5px;line-height:1.15;text-transform:uppercase}
-.model{color:var(--muted);font-size:12.5px;margin-top:-3px}
-.sizes{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
-.sz{font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:7px;border:1px solid #2b2b2b;
-  color:#eaeaea;background:#141414;cursor:pointer;font-family:inherit;transition:.12s}
-.sz:hover{border-color:var(--turq);color:var(--turq)}
-.sz:active{background:var(--turq);color:#000;border-color:var(--turq)}
-.hint{font-size:11px;color:#6d6d6d;margin-top:-1px}
-.price{font-family:'Archivo Black',Archivo,sans-serif;font-size:19px;color:var(--turq);margin-top:auto;padding-top:6px}
-.btn{display:block;text-align:center;text-decoration:none;padding:10px;border-radius:9px;font-size:13px;
-  font-weight:600;color:#000;background:linear-gradient(90deg,var(--turq),var(--teal));border:0;
-  cursor:pointer;font-family:inherit;width:100%}
-.btn:active{opacity:.82}
-.state{text-align:center;color:var(--muted);padding:56px 16px;font-size:14px;line-height:1.6}
-footer{text-align:center;color:#5a5a5a;font-size:12.5px;padding:40px 0 0;line-height:1.7}
-footer a{color:var(--turq);text-decoration:none}
-.toast{position:fixed;left:50%;bottom:134px;transform:translateX(-50%) translateY(140%);
-  opacity:0;visibility:hidden;pointer-events:none;
-  background:var(--turq);color:#000;font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;
-  transition:transform .25s;z-index:60;max-width:90vw;text-align:center}
-.toast.on{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
-
-/* --- Instagram --- */
-.ig{padding:50px 0 0;margin-top:46px;border-top:1px solid var(--line)}
-.ig h2{font-family:'Archivo Black',Archivo,sans-serif;font-size:clamp(20px,5.6vw,27px);
-  text-align:center;letter-spacing:.02em}
-.ig .rule{margin:13px auto 11px}
-.handle{display:block;text-align:center;color:var(--turq);text-decoration:none;
-  font-size:14.5px;font-weight:600;margin-bottom:20px}
-.handle:hover{text-decoration:underline}
-.iggrid{display:grid;gap:11px;grid-template-columns:repeat(3,minmax(0,1fr))}
-.igp{position:relative;display:block;aspect-ratio:1;border-radius:12px;overflow:hidden;
-  background:#0a0a0a;border:1px solid var(--line)}
-.igp img{width:100%;height:100%;object-fit:cover;display:block;transition:.25s}
-.igp:hover img{transform:scale(1.06);opacity:.86}
-.igp .vid{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.66);color:#fff;
-  font-size:10px;line-height:1;padding:5px 6px;border-radius:5px}
-.igmore{max-width:300px;margin:16px auto 0}
-.igbox{background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:26px 20px;display:flex;flex-direction:column;align-items:center;gap:15px}
-.igbox p{color:var(--muted);font-size:13.5px;line-height:1.6;max-width:430px;text-align:center}
-.igbox .btn{max-width:270px}
-
-/* --- WhatsApp flotante --- */
-.wafab{position:fixed;right:15px;bottom:15px;z-index:55;display:inline-flex;align-items:center;
-  gap:9px;background:#25D366;color:#fff;text-decoration:none;border-radius:999px;
-  padding:12px 17px 12px 14px;font-size:14px;font-weight:700;font-family:inherit;
-  box-shadow:0 12px 28px rgba(0,0,0,.6);transition:transform .16s,box-shadow .16s}
-.wafab:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,.66)}
-.wafab:active{transform:translateY(0)}
-.wafab svg{flex:0 0 auto}
-@media(max-width:400px){.wafab{padding:12px 15px 12px 13px;font-size:13.5px}}
-
-/* --- Navegacion --- */
-.nav{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:18px}
-.nav a{font-size:12.5px;color:#b9b9b9;text-decoration:none;border:1px solid var(--line);
-  background:#0b0b0b;border-radius:999px;padding:7px 13px;transition:.15s}
-.nav a:hover{border-color:var(--teal);color:var(--turq)}
-
-/* --- Secciones --- */
-.sec{padding:50px 0 0;margin-top:46px;border-top:1px solid var(--line);scroll-margin-top:92px}
-.sec h2{font-family:'Archivo Black',Archivo,sans-serif;font-size:clamp(20px,5.6vw,27px);
-  text-align:center;letter-spacing:.02em}
-.sec .rule{margin:13px auto 22px}
-.lead{max-width:620px;margin:0 auto;color:#c7c7c7;font-size:14.5px;line-height:1.75}
-.lead p+p{margin-top:13px}
-.lead b{color:var(--turq);font-weight:600}
-.kick{text-align:center;color:#8a8a8a;font-size:13.5px;font-style:italic;margin-top:20px}
-.note{margin-top:15px;text-align:center;color:var(--muted);font-size:12.5px;line-height:1.6}
-.note b{color:#d6d6d6;font-weight:600}
-
-.cols{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
-.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
-.box h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--turq);margin-bottom:9px}
-.box p{color:#bdbdbd;font-size:13.5px;line-height:1.65}
-
-.steps{counter-reset:s;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
-.step{position:relative;background:var(--card);border:1px solid var(--line);
-  border-radius:14px;padding:17px 17px 18px 56px}
-.step::before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:16px;
-  width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--turq),var(--teal));color:#000;
-  font-family:'Archivo Black',Archivo,sans-serif;font-size:14px}
-.step h3{font-size:14px;margin-bottom:6px}
-.step p{color:#bdbdbd;font-size:13.5px;line-height:1.65}
-
-.mayo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 20px;
-  display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
-.big{font-family:'Archivo Black',Archivo,sans-serif;font-size:clamp(25px,7vw,34px);
-  color:var(--turq);line-height:1.05}
-.mayo p{color:#bdbdbd;font-size:13.5px;line-height:1.7;max-width:480px}
-.mayo .btn{max-width:290px}
-
-.faq{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:9px}
-.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px}
-.faq summary{cursor:pointer;list-style:none;padding:15px 46px 15px 16px;
-  font-size:14px;font-weight:600;position:relative}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";position:absolute;right:17px;top:50%;transform:translateY(-50%);
-  color:var(--turq);font-size:21px;line-height:1;font-weight:400}
-.faq details[open] summary{color:var(--turq)}
-.faq details[open] summary::after{content:"\2212"}
-.faq details p{padding:0 16px 16px;color:#b5b5b5;font-size:13.5px;line-height:1.7}
-
-/* --- Carrito --- */
-.cartfab{position:fixed;right:15px;bottom:74px;z-index:56;display:none;align-items:center;gap:9px;
-  background:linear-gradient(90deg,var(--turq),var(--teal));color:#000;border:0;border-radius:999px;
-  padding:12px 16px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
-  box-shadow:0 12px 28px rgba(0,0,0,.6)}
-.cartfab.on{display:inline-flex}
-.cartfab .cnt{background:#000;color:var(--turq);border-radius:999px;min-width:21px;height:21px;
-  display:grid;place-items:center;font-size:12px;padding:0 6px}
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.74);z-index:70;
-  opacity:0;visibility:hidden;transition:.2s}
-.ov.on{opacity:1;visibility:visible}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:71;background:#0d0d0d;
-  border-top:1px solid var(--line);border-radius:18px 18px 0 0;padding:18px 16px 22px;
-  transform:translateY(103%);transition:transform .26s;max-height:86vh;overflow:auto}
-.sheet.on{transform:translateY(0)}
-@media(min-width:720px){
-  .sheet{left:auto;right:18px;bottom:18px;width:430px;border:1px solid var(--line);
-    border-radius:16px;max-height:76vh;transform:translateY(calc(100% + 40px))}
-  .sheet.on{transform:translateY(0)}
-}
-.sh-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.sh-head h3{font-family:'Archivo Black',Archivo,sans-serif;font-size:18px;letter-spacing:.02em}
-.sh-x{background:none;border:0;color:#8a8a8a;font-size:27px;line-height:1;cursor:pointer;
-  padding:0 2px;font-family:inherit}
-.it{display:flex;gap:11px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--line)}
-.it-n{flex:1;min-width:0}
-.it-t{font-size:13.5px;font-weight:600;line-height:1.35}
-.it-s{font-size:12px;color:var(--muted);margin-top:3px}
-.it-p{font-size:13.5px;color:var(--turq);font-weight:700;white-space:nowrap;padding-top:1px}
-.qty{display:flex;align-items:center;gap:9px;margin-top:8px}
-.qty button{width:27px;height:27px;border-radius:7px;border:1px solid #2b2b2b;background:#141414;
-  color:#eaeaea;font-family:inherit;font-size:15px;line-height:1;cursor:pointer}
-.qty button:hover{border-color:var(--turq);color:var(--turq)}
-.qty span{font-size:13.5px;min-width:16px;text-align:center}
-.qty .rm{width:auto;height:auto;margin-left:auto;border:0;background:none;color:#6d6d6d;
-  font-size:12px;padding:4px 0}
-.qty .rm:hover{color:#c45b5b}
-.tot{display:flex;justify-content:space-between;align-items:baseline;
-  border-top:1px solid var(--line);padding-top:15px;margin-bottom:14px}
-.tot b{font-family:'Archivo Black',Archivo,sans-serif;font-size:21px;color:var(--turq)}
-.empty{color:var(--muted);font-size:13.5px;text-align:center;padding:28px 0}
-.seguir{display:block;width:100%;text-align:center;color:var(--muted);font-size:12.5px;
-  margin-top:12px;background:none;border:0;cursor:pointer;font-family:inherit}
-</style>
+<link rel="stylesheet" href="/estilo.css">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <img src="data:image/png;base64,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" alt="Data Club">
-    <h1>CATÁLOGO</h1>
-    <div class="rule"></div>
-    <p class="sub">Camisetas y shorts de clubes y selecciones<br>
-      <b>Paraná, Entre Ríos</b> · Pedidos por WhatsApp</p>
-    <nav class="nav">
-      <a href="#catalogo">Catálogo</a>
-      <a href="#nosotros">Nosotros</a>
-      <a href="#comprar">Cómo comprar</a>
-      <a href="#entregas">Entregas</a>
-      <a href="#mayoristas">Mayoristas</a>
-      <a href="#faq">Preguntas</a>
-    </nav>
-  </header>
+<header class="top">
+  <div class="in">
+    <a class="brand" href="/"><img src="/logo.png" alt=""><span>DATA CLUB</span></a>
+    <nav class="nav"><a href="/" aria-current="page">Inicio</a><a href="/productos/">Productos</a><a href="/nosotros/">Nosotros</a><a href="/envios/">Envíos</a><a href="/mayoristas/">Mayoristas</a><a href="/preguntas/">Preguntas</a></nav>
+  </div>
+</header>
 
-  <div class="bar" id="catalogo">
-    <input type="search" id="q" placeholder="Buscá tu equipo…" autocomplete="off">
-    <div class="chips" id="chips"></div>
+<div class="wrap">
+
+  <div class="hero">
+    <img src="/logo.png" alt="Data Club">
+    <h1>DATA CLUB</h1>
+    <div class="rule"></div>
+    <p class="sub">Camisetas y shorts de clubes y selecciones, actuales y retro.<br>
+      <b>Paraná, Entre Ríos</b> · Envíos a todo el país</p>
+    <div class="cta">
+      <a class="p" href="/productos/">Ver productos</a>
+      <a class="g" href="https://wa.me/5493434068333?text=Hola%20Data%20Club%21%20Te%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener">Escribinos</a>
+    </div>
+    <div class="perks">
+      <div class="perk"><b>Dos calidades</b><span>Estándar y Premium, vos elegís</span></div>
+      <div class="perk"><b>Envíos</b><span>A todo el país, y en moto dentro de Paraná</span></div>
+      <div class="perk"><b>Retiro</b><span>Dos puntos en Paraná, a coordinar</span></div>
+    </div>
   </div>
 
-  <p class="count" id="count"></p>
-  <div class="grid" id="grid"></div>
-  <div class="state" id="state">Cargando el catálogo…</div>
+  <section class="sec">
+    <h2>DESTACADOS</h2>
+    <div class="rule"></div>
+    <div class="grid" id="destacados"></div>
+    <a class="btn vertodo" href="/productos/">Ver todos los productos</a>
+  </section>
 
-
-
-  <section class="sec" id="nosotros">
-    <h2>NOSOTROS</h2>
+  <section class="sec">
+    <h2>QUIÉNES SOMOS</h2>
     <div class="rule"></div>
     <div class="lead">
       <p>Somos <b>Data Club</b>, un emprendimiento de Paraná, Entre Ríos.</p>
       <p>Arrancamos con una idea simple: que ponerte la camiseta de tu equipo no tenga que ser un lujo.
          Traemos camisetas y shorts de clubes y selecciones, actuales y retro, con buena calidad
          y a precios que aguantan cualquier comparación.</p>
-      <p>Manejamos dos calidades, <b>Estándar</b> y <b>Premium</b>, y vamos renovando el stock
-         todo el tiempo. Elegís el modelo, te mandamos fotos y video de la prenda tal cual es,
-         coordinamos la entrega y listo.</p>
       <p class="kick">Al final, la camiseta no es una prenda más: es la que te ponés cuando juega el tuyo.</p>
     </div>
+    <a class="btn vertodo" href="/nosotros/">Conocenos más</a>
   </section>
 
-  <section class="sec" id="comprar">
+  <section class="sec">
     <h2>CÓMO COMPRAR</h2>
     <div class="rule"></div>
+
     <div class="steps">
       <div class="step">
         <h3>Elegí tu talle</h3>
-        <p>Buscá el modelo en el catálogo y tocá el talle. Se suma a tu pedido, y podés agregar todas las prendas que quieras.</p>
+        <p>Entrá a Productos, buscá el modelo y tocá el talle. Se suma a tu pedido,
+           y podés agregar todas las prendas que quieras.</p>
       </div>
       <div class="step">
         <h3>Mirala antes de pagar</h3>
-        <p>Te mandamos fotos y video de la prenda exacta que te llevás. Lo que ves es lo que recibís.</p>
+        <p>Te mandamos fotos y video de la prenda exacta que te llevás.
+           Lo que ves es lo que recibís.</p>
       </div>
       <div class="step">
         <h3>Pagá y coordinamos</h3>
-        <p>Transferencia, o efectivo si retirás. Arreglamos envío o punto de retiro y la camiseta sale.</p>
+        <p>Transferencia, o efectivo si retirás. Arreglamos envío o punto de retiro
+           y la camiseta sale.</p>
       </div>
     </div>
+
     <p class="note"><b>Tener en cuenta:</b> por el momento no hacemos cambios, ni por talle ni por modelo.
        Por eso te mostramos todo en detalle antes de cerrar la compra.</p>
   </section>
 
-  <section class="sec" id="entregas">
-    <h2>ENTREGAS Y ENVÍOS</h2>
-    <div class="rule"></div>
-    <div class="cols">
-      <div class="box">
-        <h3>Retiro en Paraná</h3>
-        <p>Tenemos dos puntos de retiro: uno en <b>zona sur</b> y otro en <b>zona San Agustín</b>.
-           Se coordinan antes por WhatsApp.</p>
-      </div>
-      <div class="box">
-        <h3>Envío dentro de la ciudad</h3>
-        <p>Mandamos en moto (Uber) a cualquier punto de Paraná, a coordinar por WhatsApp.</p>
-      </div>
-      <div class="box">
-        <h3>A todo el país</h3>
-        <p>Enviamos por <b>Correo Argentino</b>, <b>Andreani</b> o <b>Vía Cargo</b>, estés donde estés.</p>
-      </div>
-    </div>
-    <p class="note">El costo del envío corre por cuenta del cliente.</p>
-  </section>
-
-  <section class="sec" id="mayoristas">
-    <h2>MAYORISTAS</h2>
-    <div class="rule"></div>
-    <div class="mayo">
-      <div class="big">DESDE 10 UNIDADES</div>
-      <p>¿Revendés, tenés un local o querés armar el perchero de tu negocio?
-         Trabajamos venta por mayor a partir de 10 unidades, y cuanta más cantidad lleves,
-         mejor queda el precio. Escribinos y te pasamos los valores.</p>
-      <a class="btn" target="_blank" rel="noopener"
-         href="https://wa.me/5493434068333?text=Hola%20Data%20Club%21%20Quiero%20consultar%20precios%20mayoristas.">Consultar precios mayoristas</a>
-    </div>
-  </section>
-
-  <section class="sec" id="faq">
-    <h2>PREGUNTAS FRECUENTES</h2>
-    <div class="rule"></div>
-    <div class="faq">
-      <details>
-        <summary>¿Hacen cambios?</summary>
-        <p>Por el momento no. No hacemos cambios por talle ni por modelo. Por eso, antes de cerrar la compra,
-           te mandamos fotos y video de la prenda exacta que te llevás, para que la veas tal cual es.
-           Una vez efectuada la compra no se realizan cambios.</p>
-      </details>
-      <details>
-        <summary>¿Cómo puedo pagar?</summary>
-        <p>Por transferencia, o en efectivo si retirás la mercadería en alguno de nuestros puntos de retiro.</p>
-      </details>
-      <details>
-        <summary>¿Hacen envíos a todo el país?</summary>
-        <p>Sí. Dentro de Paraná mandamos en moto (Uber) y al resto del país por Correo Argentino,
-           Andreani o Vía Cargo. El costo del envío corre por cuenta del cliente.</p>
-      </details>
-      <details>
-        <summary>¿Puedo retirar en persona?</summary>
-        <p>Sí, en Paraná tenemos dos puntos de retiro, en zona sur y en zona San Agustín.
-           Se coordinan antes por WhatsApp.</p>
-      </details>
-      <details>
-        <summary>¿Qué diferencia hay entre Estándar y Premium?</summary>
-        <p>Son dos calidades distintas. La Premium tiene mejor tela y terminación, y por eso vale un poco más.
-           En cada modelo del catálogo figura cuál es.</p>
-      </details>
-      <details>
-        <summary>¿Cómo sé qué talle pedir?</summary>
-        <p>En cada modelo del catálogo ves los talles que hay disponibles. Si tenés dudas, escribinos
-           antes de comprar y te damos una mano, así no te equivocás.</p>
-      </details>
-      <details>
-        <summary>¿El stock del catálogo está actualizado?</summary>
-        <p>Lo actualizamos nosotros a mano, así que puede pasar que algo recién vendido siga figurando.
-           Cuando nos escribas te confirmamos la disponibilidad al momento.</p>
-      </details>
-      <details>
-        <summary>¿Venden por mayor?</summary>
-        <p>Sí, a partir de 10 unidades. Cuanta más cantidad, mejor el precio. Consultanos por WhatsApp
-           y te pasamos los valores.</p>
-      </details>
-    </div>
-  </section>
-
-  <section class="ig" id="ig">
+  <section class="sec">
     <h2>SEGUINOS</h2>
     <div class="rule"></div>
     <a class="handle" href="https://instagram.com/data.club1" target="_blank" rel="noopener">@data.club1</a>
@@ -355,11 +100,14 @@ footer a{color:var(--turq);text-decoration:none}
     </div>
   </section>
 
+
   <footer>
+    <div class="fnav"><a href="/">Inicio</a><a href="/productos/">Productos</a><a href="/nosotros/">Nosotros</a><a href="/envios/">Envíos</a><a href="/mayoristas/">Mayoristas</a><a href="/preguntas/">Preguntas</a></div>
     Data Club · Paraná, Entre Ríos<br>
-    <a href="https://instagram.com/data.club1">@data.club1</a>
+    <a href="https://instagram.com/data.club1" target="_blank" rel="noopener">@data.club1</a>
   </footer>
 </div>
+
 <button class="cartfab" id="cartfab" aria-label="Ver tu pedido">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2"
        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -374,8 +122,7 @@ footer a{color:var(--turq);text-decoration:none}
   <div id="items"></div>
   <div id="foot"></div>
 </aside>
-<a class="wafab" href="https://wa.me/5493434068333?text=Hola%20Data%20Club%21%20Te%20quiero%20hacer%20una%20consulta."
-   target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+<a class="wafab" href="https://wa.me/5493434068333?text=Hola%20Data%20Club%21%20Te%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
   <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"
        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <path d="M21 11.6a8.4 8.4 0 0 1-8.5 8.4 8.7 8.7 0 0 1-3.9-.9L3 21l1.9-5.1A8.3 8.3 0 0 1 4 12.1 8.4 8.4 0 0 1 12.5 3.2 8.4 8.4 0 0 1 21 11.6z"/>
@@ -383,265 +130,6 @@ footer a{color:var(--turq);text-decoration:none}
   <span>WhatsApp</span>
 </a>
 <div class="toast" id="toast"></div>
-
-<script>
-const SHEET_ID = "19bg-1XTt5DF_C3qvKXF6Nqs4MHYdTQ0xRzvd3V5RZw8";
-const CSV = "https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:csv&sheet=Catalogo";
-const IG = "data.club1";
-// Feed JSON de Instagram (Behold). Vacio = se muestra el bloque "Seguinos".
-const IG_FEED  = "https://feeds.behold.so/vnP93odCsrnOKANWCce0";
-const IG_POSTS = 3;
-// Pegá acá el número de WhatsApp con código de país, solo dígitos. Ej: 5493434123456
-const WA = "5493434068333";
-const FALLBACK = [{"orden": 1, "mostrar": "SI", "club": "River Plate", "modelo": "Titular", "calidad": "Estándar", "tipo": "Camiseta", "talles": "S · M · L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 2, "mostrar": "SI", "club": "River Plate", "modelo": "Tercera", "calidad": "Estándar", "tipo": "Camiseta", "talles": "S · M · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 3, "mostrar": "SI", "club": "Boca Juniors", "modelo": "Titular", "calidad": "Estándar", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 4, "mostrar": "SI", "club": "Boca Juniors", "modelo": "Suplente", "calidad": "Estándar", "tipo": "Camiseta", "talles": "S · M · XL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 5, "mostrar": "SI", "club": "Racing", "modelo": "Titular", "calidad": "Estándar", "tipo": "Camiseta", "talles": "L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 6, "mostrar": "SI", "club": "Manchester City", "modelo": "Titular (Enzo)", "calidad": "Estándar", "tipo": "Camiseta", "talles": "L · XL · XXL", "precio": 40000, "foto": "", "nota": ""}, {"orden": 7, "mostrar": "SI", "club": "Boca Juniors", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 8, "mostrar": "SI", "club": "Juventus", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 9, "mostrar": "SI", "club": "Liverpool", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "S · M", "precio": 47000, "foto": "", "nota": ""}, {"orden": 10, "mostrar": "SI", "club": "Barcelona", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 11, "mostrar": "SI", "club": "Barcelona", "modelo": "Titular G5", "calidad": "Premium", "tipo": "Camiseta", "talles": "XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 12, "mostrar": "SI", "club": "Real Madrid", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 13, "mostrar": "SI", "club": "Real Madrid", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "L", "precio": 47000, "foto": "", "nota": ""}, {"orden": 14, "mostrar": "SI", "club": "Arsenal", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 15, "mostrar": "SI", "club": "Manchester United", "modelo": "Retro blanca", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 16, "mostrar": "SI", "club": "Manchester United", "modelo": "Retro roja", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 17, "mostrar": "SI", "club": "Manchester United", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 18, "mostrar": "SI", "club": "Bayern Munich", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 19, "mostrar": "SI", "club": "Atlético Madrid", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 20, "mostrar": "SI", "club": "PSG", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 21, "mostrar": "SI", "club": "España", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L", "precio": 47000, "foto": "", "nota": ""}, {"orden": 22, "mostrar": "SI", "club": "Inter", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L", "precio": 47000, "foto": "", "nota": ""}, {"orden": 23, "mostrar": "SI", "club": "Inter", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 24, "mostrar": "SI", "club": "Milan", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 25, "mostrar": "SI", "club": "Portugal", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 26, "mostrar": "SI", "club": "Chelsea", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "L · XXL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 27, "mostrar": "SI", "club": "Chelsea", "modelo": "Suplente", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 28, "mostrar": "SI", "club": "Brasil", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "M · L · XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 29, "mostrar": "SI", "club": "Roma", "modelo": "Titular", "calidad": "Premium", "tipo": "Camiseta", "talles": "XL", "precio": 47000, "foto": "", "nota": ""}, {"orden": 30, "mostrar": "SI", "club": "Portugal", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "L", "precio": 42000, "foto": "", "nota": ""}, {"orden": 31, "mostrar": "SI", "club": "Manchester United", "modelo": "Titular blanco", "calidad": "Premium", "tipo": "Short", "talles": "XXL", "precio": 42000, "foto": "", "nota": ""}, {"orden": 32, "mostrar": "SI", "club": "PSG", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "XL", "precio": 42000, "foto": "", "nota": ""}, {"orden": 33, "mostrar": "SI", "club": "Tottenham", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "L", "precio": 42000, "foto": "", "nota": ""}, {"orden": 34, "mostrar": "SI", "club": "España", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "XXL", "precio": 42000, "foto": "", "nota": ""}, {"orden": 35, "mostrar": "SI", "club": "Real Madrid", "modelo": "Titular", "calidad": "Premium", "tipo": "Short", "talles": "M", "precio": 42000, "foto": "", "nota": ""}];
-
-function parseCSV(text){
-  const rows=[]; let row=[], cur="", q=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i];
-    if(q){
-      if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; }
-      else cur+=c;
-    } else if(c==='"') q=true;
-    else if(c===','){ row.push(cur); cur=""; }
-    else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=""; }
-    else if(c!=='\r') cur+=c;
-  }
-  if(cur.length||row.length){ row.push(cur); rows.push(row); }
-  return rows.filter(r=>r.some(c=>c.trim()!==""));
-}
-function money(v){
-  if(v==null) return "";
-  const s=String(v);
-  const n=parseInt(s.replace(/[^0-9]/g,""),10);
-  if(!isFinite(n)||n===0) return s.trim();
-  return "$"+n.toLocaleString("es-AR");
-}
-function fromRows(rows){
-  const head=rows[0].map(h=>h.trim().toLowerCase());
-  const ix=n=>head.findIndex(h=>h.startsWith(n));
-  const c={orden:ix("orden"),mostrar:ix("mostrar"),club:ix("club"),modelo:ix("modelo"),
-    calidad:ix("calidad"),tipo:ix("tipo"),talles:ix("talles"),precio:ix("precio"),
-    foto:ix("foto"),nota:ix("nota")};
-  return rows.slice(1).map(r=>({
-    orden:parseFloat(r[c.orden])||999, mostrar:(r[c.mostrar]||"SI").trim(),
-    club:(r[c.club]||"").trim(), modelo:(r[c.modelo]||"").trim(),
-    calidad:(r[c.calidad]||"").trim(), tipo:(r[c.tipo]||"").trim(),
-    talles:(r[c.talles]||"").trim(), precio:(r[c.precio]||"").trim(),
-    foto:(r[c.foto]||"").trim(), nota:(r[c.nota]||"").trim()
-  }));
-}
-
-let DATA=[], filtro="todo", texto="";
-const FILTROS=[["todo","Todo"],["camiseta","Camisetas"],["short","Shorts"],
-               ["estándar","Estándar"],["premium","Premium"]];
-
-function chips(){
-  document.getElementById("chips").innerHTML = FILTROS.map(([k,l])=>
-    `<button class="chip" data-k="${k}" aria-pressed="${k===filtro}">${l}</button>`).join("");
-}
-function visibles(){
-  return DATA.filter(d=>{
-    if(String(d.mostrar).toUpperCase().indexOf("NO")===0) return false;
-    if(!d.club) return false;
-    if(filtro==="camiseta"&&d.tipo.toLowerCase()!=="camiseta") return false;
-    if(filtro==="short"&&d.tipo.toLowerCase()!=="short") return false;
-    if(filtro==="estándar"&&d.calidad.toLowerCase().indexOf("est")!==0) return false;
-    if(filtro==="premium"&&d.calidad.toLowerCase().indexOf("pre")!==0) return false;
-    if(texto){
-      const t=(d.club+" "+d.modelo+" "+d.tipo+" "+d.calidad+" "+d.talles).toLowerCase();
-      if(t.indexOf(texto)<0) return false;
-    }
-    return true;
-  }).sort((a,b)=>a.orden-b.orden);
-}
-function nombre(d){
-  const art = d.tipo.toLowerCase()==="short" ? "el short" : "la camiseta";
-  const cal = d.calidad ? " ("+d.calidad+")" : "";
-  return art+" de "+d.club+" "+d.modelo+cal;
-}
-const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
-
-function render(){
-  const list=visibles(), grid=document.getElementById("grid"), st=document.getElementById("state");
-  document.getElementById("count").textContent =
-    list.length+(list.length===1?" modelo disponible":" modelos disponibles");
-  if(!list.length){
-    grid.innerHTML=""; st.style.display="block";
-    st.textContent="No encontramos nada con esa búsqueda. Probá con el nombre del club.";
-    return;
-  }
-  st.style.display="none";
-  grid.innerHTML=list.map(d=>{
-    const sizes=d.talles.split(/[·,/|]+/).map(s=>s.trim()).filter(Boolean);
-    const pre=d.calidad.toLowerCase().indexOf("pre")===0;
-    const img=d.foto
-      ? `<img src="${esc(d.foto)}" alt="${esc(d.club+" "+d.modelo)}" loading="lazy"
-           onerror="this.parentNode.innerHTML=NOIMG">`
-      : NOIMG;
-    return `<article class="card">
-      <div class="ph">${img}
-        ${d.nota?`<div class="tag">${esc(d.nota)}</div>`:""}
-        <div class="qual${pre?" pre":""}">${esc(d.calidad||d.tipo)}</div>
-      </div>
-      <div class="body">
-        <div class="club">${esc(d.club)}</div>
-        <div class="model">${esc(d.modelo)}${d.tipo.toLowerCase()==="short"?" · Short":""}</div>
-        <div class="sizes">${sizes.length
-            ? sizes.map(s=>`<button class="sz" data-club="${esc(d.club)}" data-modelo="${esc(d.modelo)}"
-                 data-cal="${esc(d.calidad)}" data-tipo="${esc(d.tipo)}" data-talle="${esc(s)}"
-                 data-precio="${num(d.precio)}">${esc(s)}</button>`).join("")
-            : `<button class="sz" data-consulta="1" data-prenda="${esc(nombre(d))}">Consultar</button>`}</div>
-        <div class="hint">${sizes.length?"Tocá tu talle para agregarlo":"Escribinos por WhatsApp"}</div>
-        <div class="price">${esc(money(d.precio))}</div>
-      </div></article>`;
-  }).join("");
-}
-const NOIMG=`<div class="noimg"><svg width="46" height="46" viewBox="0 0 24 24" fill="none"
-  stroke="currentColor" stroke-width="1.4"><path d="M12 2l8 3v6c0 5-3.4 9-8 11-4.6-2-8-6-8-11V5z"/></svg>
-  <span>Foto en camino</span></div>`;
-
-
-/* ---------- carrito ---------- */
-const CART_KEY="dc_cart_v1";
-let CART=[];
-const num=v=>{const n=parseInt(String(v||"").replace(/[^0-9]/g,""),10);return isFinite(n)?n:0;};
-const cap=s=>{s=String(s||"");return s?s.charAt(0).toUpperCase()+s.slice(1).toLowerCase():"";};
-function cartLoad(){
-  try{const r=localStorage.getItem(CART_KEY);CART=r?JSON.parse(r):[];if(!Array.isArray(CART))CART=[];}
-  catch(e){CART=[];}
-}
-function cartSave(){ try{localStorage.setItem(CART_KEY,JSON.stringify(CART));}catch(e){} }
-function titulo(x){
-  return cap(x.tipo||"Prenda")+" "+x.club+" "+x.modelo+(x.cal?" ("+x.cal+")":"");
-}
-function cartAdd(o){
-  const k=[o.club,o.modelo,o.cal,o.tipo,o.talle].join("|");
-  const f=CART.filter(x=>x.k===k)[0];
-  if(f){ f.q++; } else { CART.push({k:k,club:o.club,modelo:o.modelo,cal:o.cal,
-    tipo:o.tipo,talle:o.talle,precio:o.precio,q:1}); }
-  cartSave(); cartPaint();
-}
-function cartQty(k,d){
-  const f=CART.filter(x=>x.k===k)[0]; if(!f) return;
-  f.q+=d; if(f.q<1) CART=CART.filter(x=>x.k!==k);
-  cartSave(); cartPaint(); if(!CART.length) sheet(false);
-}
-function cartDel(k){ CART=CART.filter(x=>x.k!==k); cartSave(); cartPaint(); if(!CART.length) sheet(false); }
-function cartN(){ return CART.reduce((a,x)=>a+x.q,0); }
-function cartTotal(){ return CART.reduce((a,x)=>a+x.precio*x.q,0); }
-function cartPaint(){
-  document.getElementById("cartn").textContent=cartN();
-  document.getElementById("cartfab").classList.toggle("on",CART.length>0);
-  const it=document.getElementById("items"), ft=document.getElementById("foot");
-  if(!CART.length){ it.innerHTML='<p class="empty">Todav\u00eda no agregaste nada a tu pedido.</p>';
-    ft.innerHTML=""; return; }
-  it.innerHTML=CART.map(x=>
-     '<div class="it"><div class="it-n">'
-    +'<div class="it-t">'+esc(titulo(x))+'</div>'
-    +'<div class="it-s">Talle '+esc(x.talle||"a confirmar")
-    +(x.precio?' \u00b7 '+money(x.precio)+' c/u':'')+'</div>'
-    +'<div class="qty">'
-    +'<button data-q="-1" data-k="'+esc(x.k)+'" aria-label="Quitar uno">\u2212</button>'
-    +'<span>'+x.q+'</span>'
-    +'<button data-q="1" data-k="'+esc(x.k)+'" aria-label="Agregar uno">+</button>'
-    +'<button class="rm" data-del="'+esc(x.k)+'">Quitar</button>'
-    +'</div></div>'
-    +'<div class="it-p">'+(x.precio?money(x.precio*x.q):"a confirmar")+'</div></div>').join("");
-  const t=cartTotal();
-  ft.innerHTML='<div class="tot"><span>Total</span><b>'+(t?money(t):"a confirmar")+'</b></div>'
-    +'<button class="btn" id="pedir">Hacer el pedido por WhatsApp</button>'
-    +'<button class="seguir" id="seguir">Seguir mirando</button>';
-}
-function sheet(on){
-  document.getElementById("sheet").classList.toggle("on",on);
-  document.getElementById("ov").classList.toggle("on",on);
-  document.body.style.overflow = on ? "hidden" : "";
-}
-function waOpen(msg){
-  if(!WA){ toast("Falta cargar el n\u00famero de WhatsApp"); return; }
-  const a=document.createElement("a");
-  a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(msg);
-  a.target="_blank"; a.rel="noopener";
-  document.body.appendChild(a); a.click(); a.remove();
-}
-function pedido(){
-  const L=CART.map((x,i)=>(i+1)+") "+titulo(x)+" \u00b7 Talle "+(x.talle||"a confirmar")
-      +" \u00b7 x"+x.q+(x.precio?" \u00b7 "+money(x.precio*x.q):""));
-  let m="Hola Data Club! Te hago un pedido:\n\n"+L.join("\n");
-  const t=cartTotal();
-  if(t) m+="\n\nTotal: "+money(t);
-  return m;
-}
-
-function toast(m){
-  const t=document.getElementById("toast");
-  t.textContent=m; t.classList.add("on");
-  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("on"),2600);
-}
-document.addEventListener("click",e=>{
-  const chip=e.target.closest(".chip");
-  if(chip){ filtro=chip.dataset.k; chips(); render(); return; }
-  if(e.target.closest("#cartfab")){ sheet(true); return; }
-  if(e.target.closest("#ov")||e.target.closest("#shx")||e.target.closest("#seguir")){ sheet(false); return; }
-  if(e.target.closest("#pedir")){ waOpen(pedido()); return; }
-  const q=e.target.closest("[data-q]");
-  if(q){ cartQty(q.dataset.k,parseInt(q.dataset.q,10)); return; }
-  const dl=e.target.closest("[data-del]");
-  if(dl){ cartDel(dl.dataset.del); return; }
-  const sz=e.target.closest(".sz");
-  if(sz){
-    if(sz.dataset.consulta){ waOpen("Hola! Me interesa "+sz.dataset.prenda+"."); return; }
-    cartAdd({club:sz.dataset.club,modelo:sz.dataset.modelo,cal:sz.dataset.cal,
-             tipo:sz.dataset.tipo,talle:sz.dataset.talle,precio:num(sz.dataset.precio)});
-    toast("Agregado a tu pedido \u00b7 talle "+sz.dataset.talle);
-  }
-});
-document.addEventListener("keydown",e=>{ if(e.key==="Escape") sheet(false); });
-document.getElementById("q").addEventListener("input",e=>{
-  texto=e.target.value.trim().toLowerCase(); render();
-});
-
-async function instagram(){
-  if(!IG_FEED) return;
-  const box=document.getElementById("igbox");
-  try{
-    const r=await fetch(IG_FEED,{cache:"no-store"});
-    if(!r.ok) throw new Error(r.status);
-    const d=await r.json();
-    const posts=((d&&d.posts)||(Array.isArray(d)?d:[])).slice(0,IG_POSTS);
-    if(!posts.length) throw new Error("sin posts");
-    const cel=posts.map(p=>{
-      const z=p.sizes||{};
-      const img=(z.medium&&z.medium.mediaUrl)||(z.full&&z.full.mediaUrl)||(z.small&&z.small.mediaUrl)
-                ||p.thumbnailUrl||p.mediaUrl||"";
-      const vid=/VIDEO|REEL/i.test(p.mediaType||"");
-      const cap=esc(((p.prunedCaption||p.caption||"").replace(/\s+/g," ")).slice(0,100));
-      const url=esc(p.permalink||("https://instagram.com/"+IG));
-      return '<a class="igp" href="'+url+'" target="_blank" rel="noopener" title="'+cap+'">'
-        +(img?'<img src="'+esc(img)+'" alt="'+(cap||"Publicación de Data Club")+'" loading="lazy">':"")
-        +(vid?'<span class="vid">VIDEO</span>':"")+'</a>';
-    }).join("");
-    box.innerHTML='<div class="iggrid">'+cel+'</div>'
-      +'<a class="btn igmore" href="https://instagram.com/'+IG+'" target="_blank" rel="noopener">Ver más en @'+IG+'</a>';
-  }catch(err){ /* queda el bloque "Seguinos" */ }
-}
-
-(async function(){
-  chips();
-  cartLoad(); cartPaint();
-  try{
-    const r=await fetch(CSV+"&_="+Date.now(),{cache:"no-store"});
-    if(!r.ok) throw new Error(r.status);
-    const rows=parseCSV(await r.text());
-    if(rows.length<2) throw new Error("vacio");
-    DATA=fromRows(rows);
-  }catch(err){
-    DATA=FALLBACK;
-  }
-  render();
-  instagram();
-})();
-</script>
+<script src="/app.js" defer></script>
 </body>
 </html>
