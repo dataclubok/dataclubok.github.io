@@ -246,6 +246,7 @@ function cartAdd(o){
   if(f){ f.q++; } else { CART.push({k:k,club:o.club,modelo:o.modelo,cal:o.cal,
     tipo:o.tipo,talle:o.talle,precio:o.precio,q:1}); }
   cartSave(); cartPaint();
+  fb("AddToCart",{content_name:titulo(o),value:o.precio||0,currency:"ARS"});
 }
 function cartQty(k,d){
   const f=CART.filter(x=>x.k===k)[0]; if(!f) return;
@@ -286,6 +287,8 @@ function sheet(on){
   document.getElementById("ov").classList.toggle("on",on);
   document.body.style.overflow = on ? "hidden" : "";
 }
+/* eventos de Meta: no hacen nada si el pixel no esta puesto */
+function fb(ev,data){ try{ if(window.fbq) fbq("track",ev,data||{}); }catch(e){} }
 function waOpen(msg){
   if(!WA){ toast("Falta cargar el n\u00famero de WhatsApp"); return; }
   const a=document.createElement("a");
@@ -384,7 +387,11 @@ document.addEventListener("click",e=>{
   if(en){ setEnt(en.dataset.ent===getEnt()?"":en.dataset.ent); cartPaint(); return; }
   if(e.target.closest("#cartfab")){ sheet(true); return; }
   if(e.target.closest("#ov")||e.target.closest("#shx")||e.target.closest("#seguir")){ sheet(false); return; }
-  if(e.target.closest("#pedir")){ waOpen(pedido()); return; }
+  if(e.target.closest("#pedir")){
+    fb("InitiateCheckout",{value:cartTotal(),currency:"ARS",num_items:cartN()});
+    waOpen(pedido()); return;
+  }
+  if(e.target.closest(".wafab")){ fb("Contact"); return; }
   const q=e.target.closest("[data-q]");
   if(q){ cartQty(q.dataset.k,parseInt(q.dataset.q,10)); return; }
   const dl=e.target.closest("[data-del]");

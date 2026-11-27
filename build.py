@@ -2,6 +2,9 @@
 """Genera las paginas de dataclubok.github.io. Correr: python3 build.py"""
 import io, os
 
+# Pixel de Meta. Pegar aca el ID del dataset y correr: python3 build.py
+META_PIXEL  = ""
+
 WA_CONSULTA = "https://wa.me/5493434068333?text=Hola%20Data%20Club%21%20Te%20quiero%20hacer%20una%20consulta."
 WA_MAYOR    = "https://wa.me/5493434068333?text=Hola%20Data%20Club%21%20Quiero%20consultar%20precios%20mayoristas."
 
@@ -23,7 +26,7 @@ SHELL = u"""<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/estilo.css">
-</head>
+{pixel}</head>
 <body>
 <header class="top">
   <div class="in">
@@ -367,13 +370,23 @@ PAGES = [
   "/preguntas/", PREGUNTAS),
 ]
 
+PIXEL = ("""<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','%s');fbq('track','PageView');
+</script>
+""" % META_PIXEL) if META_PIXEL else ""
+
 base="/home/claude/dataclubok.github.io"
 for folder,title,desc,here,body in PAGES:
     nav="".join(u'<a href="%s"%s>%s</a>'%(h," aria-current=\"page\"" if h==here else "",l)
                 for h,l in NAV)
     fnav="".join(u'<a href="%s">%s</a>'%(h,l) for h,l in NAV)
     html=SHELL.format(title=title,desc=desc,nav=nav,fnav=fnav,body=body,
-                      ig="data.club1",wa=WA_CONSULTA)
+                      ig="data.club1",wa=WA_CONSULTA,pixel=PIXEL)
     d=os.path.join(base,folder) if folder else base
     if folder and not os.path.isdir(d): os.makedirs(d)
     io.open(os.path.join(d,"index.html"),"w",encoding="utf-8").write(html)
