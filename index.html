@@ -99,6 +99,57 @@ footer a{color:var(--turq);text-decoration:none}
 .wafab:active{transform:translateY(0)}
 .wafab svg{flex:0 0 auto}
 @media(max-width:400px){.wafab{padding:12px 15px 12px 13px;font-size:13.5px}}
+
+/* --- Navegacion --- */
+.nav{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:18px}
+.nav a{font-size:12.5px;color:#b9b9b9;text-decoration:none;border:1px solid var(--line);
+  background:#0b0b0b;border-radius:999px;padding:7px 13px;transition:.15s}
+.nav a:hover{border-color:var(--teal);color:var(--turq)}
+
+/* --- Secciones --- */
+.sec{padding:50px 0 0;margin-top:46px;border-top:1px solid var(--line);scroll-margin-top:92px}
+.sec h2{font-family:'Archivo Black',Archivo,sans-serif;font-size:clamp(20px,5.6vw,27px);
+  text-align:center;letter-spacing:.02em}
+.sec .rule{margin:13px auto 22px}
+.lead{max-width:620px;margin:0 auto;color:#c7c7c7;font-size:14.5px;line-height:1.75}
+.lead p+p{margin-top:13px}
+.lead b{color:var(--turq);font-weight:600}
+.kick{text-align:center;color:#8a8a8a;font-size:13.5px;font-style:italic;margin-top:20px}
+.note{margin-top:15px;text-align:center;color:var(--muted);font-size:12.5px;line-height:1.6}
+.note b{color:#d6d6d6;font-weight:600}
+
+.cols{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.box h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--turq);margin-bottom:9px}
+.box p{color:#bdbdbd;font-size:13.5px;line-height:1.65}
+
+.steps{counter-reset:s;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
+.step{position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:17px 17px 18px 56px}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:16px;
+  width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--turq),var(--teal));color:#000;
+  font-family:'Archivo Black',Archivo,sans-serif;font-size:14px}
+.step h3{font-size:14px;margin-bottom:6px}
+.step p{color:#bdbdbd;font-size:13.5px;line-height:1.65}
+
+.mayo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 20px;
+  display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.big{font-family:'Archivo Black',Archivo,sans-serif;font-size:clamp(25px,7vw,34px);
+  color:var(--turq);line-height:1.05}
+.mayo p{color:#bdbdbd;font-size:13.5px;line-height:1.7;max-width:480px}
+.mayo .btn{max-width:290px}
+
+.faq{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:9px}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px}
+.faq summary{cursor:pointer;list-style:none;padding:15px 46px 15px 16px;
+  font-size:14px;font-weight:600;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:17px;top:50%;transform:translateY(-50%);
+  color:var(--turq);font-size:21px;line-height:1;font-weight:400}
+.faq details[open] summary{color:var(--turq)}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{padding:0 16px 16px;color:#b5b5b5;font-size:13.5px;line-height:1.7}
 </style>
 </head>
 <body>
@@ -109,9 +160,17 @@ footer a{color:var(--turq);text-decoration:none}
     <div class="rule"></div>
     <p class="sub">Camisetas y shorts de clubes y selecciones<br>
       <b>Paraná, Entre Ríos</b> · Pedidos por WhatsApp</p>
+    <nav class="nav">
+      <a href="#catalogo">Catálogo</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#comprar">Cómo comprar</a>
+      <a href="#entregas">Entregas</a>
+      <a href="#mayoristas">Mayoristas</a>
+      <a href="#faq">Preguntas</a>
+    </nav>
   </header>
 
-  <div class="bar">
+  <div class="bar" id="catalogo">
     <input type="search" id="q" placeholder="Buscá tu equipo…" autocomplete="off">
     <div class="chips" id="chips"></div>
   </div>
@@ -120,6 +179,124 @@ footer a{color:var(--turq);text-decoration:none}
   <div class="grid" id="grid"></div>
   <div class="state" id="state">Cargando el catálogo…</div>
 
+
+
+  <section class="sec" id="nosotros">
+    <h2>NOSOTROS</h2>
+    <div class="rule"></div>
+    <div class="lead">
+      <p>Somos <b>Data Club</b>, un emprendimiento de Paraná, Entre Ríos.</p>
+      <p>Arrancamos con una idea simple: que ponerte la camiseta de tu equipo no tenga que ser un lujo.
+         Traemos camisetas y shorts de clubes y selecciones, actuales y retro, con buena calidad
+         y a precios que aguantan cualquier comparación.</p>
+      <p>Manejamos dos calidades, <b>Estándar</b> y <b>Premium</b>, y vamos renovando el stock
+         todo el tiempo. Elegís el modelo, te mandamos fotos y video de la prenda tal cual es,
+         coordinamos la entrega y listo.</p>
+      <p class="kick">Al final, la camiseta no es una prenda más: es la que te ponés cuando juega el tuyo.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="comprar">
+    <h2>CÓMO COMPRAR</h2>
+    <div class="rule"></div>
+    <div class="steps">
+      <div class="step">
+        <h3>Elegí tu talle</h3>
+        <p>Buscá el modelo en el catálogo y tocá el talle. Se abre WhatsApp con el pedido ya escrito.</p>
+      </div>
+      <div class="step">
+        <h3>Mirala antes de pagar</h3>
+        <p>Te mandamos fotos y video de la prenda exacta que te llevás. Lo que ves es lo que recibís.</p>
+      </div>
+      <div class="step">
+        <h3>Pagá y coordinamos</h3>
+        <p>Transferencia, o efectivo si retirás. Arreglamos envío o punto de retiro y la camiseta sale.</p>
+      </div>
+    </div>
+    <p class="note"><b>Tener en cuenta:</b> por el momento no hacemos cambios, ni por talle ni por modelo.
+       Por eso te mostramos todo en detalle antes de cerrar la compra.</p>
+  </section>
+
+  <section class="sec" id="entregas">
+    <h2>ENTREGAS Y ENVÍOS</h2>
+    <div class="rule"></div>
+    <div class="cols">
+      <div class="box">
+        <h3>Retiro en Paraná</h3>
+        <p>Tenemos dos puntos de retiro: uno en <b>zona sur</b> y otro en <b>zona San Agustín</b>.
+           Se coordinan antes por WhatsApp.</p>
+      </div>
+      <div class="box">
+        <h3>Envío dentro de la ciudad</h3>
+        <p>Mandamos en moto (Uber) a cualquier punto de Paraná, a coordinar por WhatsApp.</p>
+      </div>
+      <div class="box">
+        <h3>A todo el país</h3>
+        <p>Enviamos por <b>Correo Argentino</b>, <b>Andreani</b> o <b>Vía Cargo</b>, estés donde estés.</p>
+      </div>
+    </div>
+    <p class="note">El costo del envío corre por cuenta del cliente.</p>
+  </section>
+
+  <section class="sec" id="mayoristas">
+    <h2>MAYORISTAS</h2>
+    <div class="rule"></div>
+    <div class="mayo">
+      <div class="big">DESDE 10 UNIDADES</div>
+      <p>¿Revendés, tenés un local o querés armar el perchero de tu negocio?
+         Trabajamos venta por mayor a partir de 10 unidades, y cuanta más cantidad lleves,
+         mejor queda el precio. Escribinos y te pasamos los valores.</p>
+      <a class="btn" target="_blank" rel="noopener"
+         href="https://wa.me/5493434068333?text=Hola%20Data%20Club%21%20Quiero%20consultar%20precios%20mayoristas.">Consultar precios mayoristas</a>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <h2>PREGUNTAS FRECUENTES</h2>
+    <div class="rule"></div>
+    <div class="faq">
+      <details>
+        <summary>¿Hacen cambios?</summary>
+        <p>Por el momento no. No hacemos cambios por talle ni por modelo. Por eso, antes de cerrar la compra,
+           te mandamos fotos y video de la prenda exacta que te llevás, para que la veas tal cual es.
+           Una vez efectuada la compra no se realizan cambios.</p>
+      </details>
+      <details>
+        <summary>¿Cómo puedo pagar?</summary>
+        <p>Por transferencia, o en efectivo si retirás la mercadería en alguno de nuestros puntos de retiro.</p>
+      </details>
+      <details>
+        <summary>¿Hacen envíos a todo el país?</summary>
+        <p>Sí. Dentro de Paraná mandamos en moto (Uber) y al resto del país por Correo Argentino,
+           Andreani o Vía Cargo. El costo del envío corre por cuenta del cliente.</p>
+      </details>
+      <details>
+        <summary>¿Puedo retirar en persona?</summary>
+        <p>Sí, en Paraná tenemos dos puntos de retiro, en zona sur y en zona San Agustín.
+           Se coordinan antes por WhatsApp.</p>
+      </details>
+      <details>
+        <summary>¿Qué diferencia hay entre Estándar y Premium?</summary>
+        <p>Son dos calidades distintas. La Premium tiene mejor tela y terminación, y por eso vale un poco más.
+           En cada modelo del catálogo figura cuál es.</p>
+      </details>
+      <details>
+        <summary>¿Cómo sé qué talle pedir?</summary>
+        <p>En cada modelo del catálogo ves los talles que hay disponibles. Si tenés dudas, escribinos
+           antes de comprar y te damos una mano, así no te equivocás.</p>
+      </details>
+      <details>
+        <summary>¿El stock del catálogo está actualizado?</summary>
+        <p>Lo actualizamos nosotros a mano, así que puede pasar que algo recién vendido siga figurando.
+           Cuando nos escribas te confirmamos la disponibilidad al momento.</p>
+      </details>
+      <details>
+        <summary>¿Venden por mayor?</summary>
+        <p>Sí, a partir de 10 unidades. Cuanta más cantidad, mejor el precio. Consultanos por WhatsApp
+           y te pasamos los valores.</p>
+      </details>
+    </div>
+  </section>
 
   <section class="ig" id="ig">
     <h2>SEGUINOS</h2>
