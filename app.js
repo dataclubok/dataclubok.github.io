@@ -31,8 +31,13 @@ function talles(d){
     return m ? {t:m[1].trim(), q:parseInt(m[2],10)} : {t:x, q:null};
   });
 }
-function fotos(d){
-  return String(d.foto||"").split(/[\s,]+/).map(x=>x.trim()).filter(x=>/^https?:/i.test(x));
+let FOTOS={};
+const dUrl=(id,w)=>"https://lh3.googleusercontent.com/d/"+id+"=w"+w;
+/* URLs propias de la planilla, si no las hay usa fotos.json (ids de Drive) */
+function fotos(d,w){
+  const own=String(d.foto||"").split(/[\s,]+/).map(x=>x.trim()).filter(x=>/^https?:/i.test(x));
+  if(own.length) return own;
+  return (FOTOS[slug(d)]||[]).map(id=>dUrl(id,w||700));
 }
 function nombre(d){
   const art = d.tipo.toLowerCase()==="short" ? "el short" : "la camiseta";
@@ -105,7 +110,7 @@ function ultimos(ts){
     +esc(u.join(" \u00b7 "))+'</div>';
 }
 function tarjeta(d){
-  const ts=talles(d), fs=fotos(d);
+  const ts=talles(d), fs=fotos(d,500);
   const pre=d.calidad.toLowerCase().indexOf("pre")===0;
   const img=fs.length
     ? '<img src="'+esc(fs[0])+'" alt="'+esc(d.club+" "+d.modelo)+'" loading="lazy" '
@@ -130,14 +135,14 @@ function tarjeta(d){
 /* ---------- ficha de producto ---------- */
 let FOTO=0, FICHA=null;
 function fichaHTML(d){
-  const ts=talles(d), fs=fotos(d);
+  const ts=talles(d), fs=fotos(d,1100), th=fotos(d,160);
   const pre=d.calidad.toLowerCase().indexOf("pre")===0;
   const main=fs.length
     ? '<img id="fimg" src="'+esc(fs[FOTO]||fs[0])+'" alt="'+esc(d.club+" "+d.modelo)+'">'
     : NOIMG;
   const thumbs = fs.length>1
     ? '<div class="fthumbs">'+fs.map((u,i)=>'<button data-foto="'+i+'" aria-pressed="'+(i===FOTO)+'">'
-        +'<img src="'+esc(u)+'" alt=""></button>').join("")+'</div>'
+        +'<img src="'+esc(th[i]||u)+'" alt="" loading="lazy"></button>').join("")+'</div>'
     : "";
   const desc = d.descripcion
     ? esc(d.descripcion)
@@ -377,6 +382,10 @@ if(qin) qin.addEventListener("input",e=>{ texto=e.target.value.trim().toLowerCas
   instagram();
   if(!document.getElementById("grid")&&!document.getElementById("destacados")) return;
   chips();
+  try{
+    const fr=await fetch("/fotos.json?_="+Date.now(),{cache:"no-store"});
+    if(fr.ok) FOTOS=await fr.json();
+  }catch(e){}
   try{
     const r=await fetch(CSV+"&_="+Date.now(),{cache:"no-store"});
     if(!r.ok) throw new Error(r.status);
