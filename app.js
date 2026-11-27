@@ -108,7 +108,7 @@ function qualCls(d){
   return "";
 }
 function botonTalle(d,x){
-  return '<button class="sz'+(x.q===1?" last":"")+'" data-club="'+esc(d.club)
+  return '<button class="sz'+(x.q===1?" last":"")+'" aria-pressed="false" data-club="'+esc(d.club)
     +'" data-modelo="'+esc(d.modelo)+'" data-cal="'+esc(d.calidad)+'" data-tipo="'+esc(d.tipo)
     +'" data-talle="'+esc(x.t)+'" data-precio="'+num(d.precio)+'"'
     +(x.q===1?' title="\u00daltimo disponible"':'')+'>'+esc(x.t)+'</button>';
@@ -139,12 +139,13 @@ function tarjeta(d){
     +(ts.length ? ts.map(x=>botonTalle(d,x)).join("")
       : '<button class="sz" data-consulta="1" data-prenda="'+esc(nombre(d))+'">Consultar</button>')
     +'</div>'+ultimos(ts)
-    +'<div class="hint">'+(ts.length?"Toc\u00e1 tu talle para agregarlo":"Escribinos por WhatsApp")+'</div>'
+    +(ts.length?'<div class="addwrap" hidden><button class="btn add">Agregar a mi pedido</button></div>':'')
+    +'<div class="hint">'+(ts.length?"Eleg\u00ed tu talle":"Escribinos por WhatsApp")+'</div>'
     +'<div class="price">'+esc(money(d.precio))+'</div></div></article>';
 }
 
 /* ---------- ficha de producto ---------- */
-let FOTO=0, FICHA=null;
+let FOTO=0, FICHA=null, FICHA_PUSH=false;
 function fichaHTML(d){
   const ts=talles(d), fs=fotos(d,1100), th=fotos(d,160);
   const q=qualCls(d);
@@ -173,26 +174,38 @@ function fichaHTML(d){
     +(ts.length ? ts.map(x=>botonTalle(d,x)).join("")
       : '<button class="sz" data-consulta="1" data-prenda="'+esc(nombre(d))+'">Consultar</button>')
     +'</div>'+ultimos(ts)
+    +(ts.length?'<div class="addwrap" hidden><button class="btn add">Agregar a mi pedido</button></div>':'')
     +'<p class="fdesc">'+desc+'</p>'
-    +'<button class="btn" id="verpedido">Ver mi pedido</button>'
+    +'<button class="btn2" id="verpedido">Ver mi pedido</button>'
     +'<button class="seguir" id="copiar" data-slug="'+esc(slug(d))+'">Copiar link de este producto</button>'
     +'</div></div>';
 }
-function ficha(sl){
+function ficha(sl,deHistorial){
   const d=DATA.filter(x=>slug(x)===sl)[0];
   const box=document.getElementById("ficha"); if(!d||!box) return;
   FICHA=d; FOTO=0;
   document.getElementById("fcont").innerHTML=fichaHTML(d);
   box.classList.add("on"); document.getElementById("ov2").classList.add("on");
   document.body.style.overflow="hidden";
-  try{ history.replaceState(null,"","?p="+encodeURIComponent(sl)); }catch(e){}
+  box.scrollTop=0;
+  if(!deHistorial){
+    try{ history.pushState({p:sl},"","?p="+encodeURIComponent(sl)); FICHA_PUSH=true; }catch(e){}
+  }
 }
-function cerrarFicha(){
+function cerrarFicha(deHistorial){
   const box=document.getElementById("ficha"); if(!box) return;
+  const estaba=box.classList.contains("on");
   box.classList.remove("on"); document.getElementById("ov2").classList.remove("on");
   document.body.style.overflow=""; FICHA=null;
-  try{ history.replaceState(null,"",location.pathname); }catch(e){}
+  if(deHistorial){ FICHA_PUSH=false; return; }
+  if(!estaba) return;
+  if(FICHA_PUSH){ FICHA_PUSH=false; try{ history.back(); }catch(e){} }
+  else { try{ history.replaceState(null,"",location.pathname); }catch(e){} }
 }
+window.addEventListener("popstate",function(){
+  const sl=new URLSearchParams(location.search).get("p");
+  if(sl) ficha(sl,true); else cerrarFicha(true);
+});
 function chips(){
   const c=document.getElementById("chips"); if(!c) return;
   const hayDorsal=DATA.some(d=>d.dorsal);
@@ -368,7 +381,7 @@ document.addEventListener("click",e=>{
   if(chip){ filtro=chip.dataset.k; chips(); render(); return; }
   const fi=e.target.closest("[data-ficha]");
   if(fi){ ficha(fi.dataset.ficha); return; }
-  if(e.target.closest("#ov2")||e.target.closest("#fx")){ cerrarFicha(); return; }
+  if(e.target.closest("#ov2")||e.target.closest("#fx")||e.target.closest("#fback")){ cerrarFicha(); return; }
   if(e.target.closest("#verpedido")){ cerrarFicha(); sheet(true); return; }
   const cp=e.target.closest("#copiar");
   if(cp){
@@ -399,9 +412,22 @@ document.addEventListener("click",e=>{
   const sz=e.target.closest(".sz");
   if(sz){
     if(sz.dataset.consulta){ waOpen("Hola! Me interesa "+sz.dataset.prenda+"."); return; }
-    cartAdd({club:sz.dataset.club,modelo:sz.dataset.modelo,cal:sz.dataset.cal,
-             tipo:sz.dataset.tipo,talle:sz.dataset.talle,precio:num(sz.dataset.precio)});
-    toast("Agregado a tu pedido \u00b7 talle "+sz.dataset.talle);
+    const caja=sz.closest(".body")||sz.closest(".finfo"); if(!caja) return;
+    const ya=sz.getAttribute("aria-pressed")==="true";
+    caja.querySelectorAll(".sz").forEach(b=>b.setAttribute("aria-pressed","false"));
+    sz.setAttribute("aria-pressed", ya?"false":"true");
+    const w=caja.querySelector(".addwrap");
+    if(w) w.hidden=ya;
+    return;
+  }
+  const add=e.target.closest(".add");
+  if(add){
+    const caja=add.closest(".body")||add.closest(".finfo"); if(!caja) return;
+    const sel=caja.querySelector('.sz[aria-pressed="true"]');
+    if(!sel){ toast("Eleg\u00ed un talle primero"); return; }
+    cartAdd({club:sel.dataset.club,modelo:sel.dataset.modelo,cal:sel.dataset.cal,
+             tipo:sel.dataset.tipo,talle:sel.dataset.talle,precio:num(sel.dataset.precio)});
+    toast("Agregado a tu pedido \u00b7 talle "+sel.dataset.talle);
   }
 });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ sheet(false); cerrarFicha(); } });
@@ -428,5 +454,5 @@ if(qin) qin.addEventListener("input",e=>{ texto=e.target.value.trim().toLowerCas
   chips();
   render();
   const sl=new URLSearchParams(location.search).get("p");
-  if(sl) ficha(sl);
+  if(sl) ficha(sl,true);
 })();

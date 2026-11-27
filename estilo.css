@@ -175,8 +175,9 @@ footer .fnav a:hover{color:var(--turq)}
 .ov.on{opacity:1;visibility:visible}
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:71;background:#0d0d0d;
   border-top:1px solid var(--line);border-radius:18px 18px 0 0;padding:18px 16px 22px;
-  transform:translateY(103%);transition:transform .26s;max-height:86vh;overflow:auto}
-.sheet.on{transform:translateY(0)}
+  transform:translateY(103%);transition:transform .26s;max-height:86vh;overflow:auto;
+  visibility:hidden;pointer-events:none}
+.sheet.on{transform:translateY(0);visibility:visible;pointer-events:auto}
 @media(min-width:720px){
   .sheet{left:auto;right:18px;bottom:18px;width:430px;border:1px solid var(--line);
     border-radius:16px;max-height:76vh;transform:translateY(calc(100% + 40px))}
@@ -224,8 +225,9 @@ footer .fnav a:hover{color:var(--turq)}
 .last-l{font-size:11px;color:#e8c377;margin-top:-1px}
 .modal{position:fixed;left:0;right:0;bottom:0;z-index:73;background:#0d0d0d;
   border-top:1px solid var(--line);border-radius:18px 18px 0 0;padding:18px 16px 26px;
-  transform:translateY(103%);transition:transform .26s;max-height:92vh;overflow:auto}
-.modal.on{transform:translateY(0)}
+  transform:translateY(103%);transition:transform .26s;max-height:92vh;overflow:auto;
+  visibility:hidden;pointer-events:none}
+.modal.on{transform:translateY(0);visibility:visible;pointer-events:auto}
 @media(min-width:720px){
   .modal{left:50%;top:50%;right:auto;bottom:auto;width:min(780px,92vw);max-height:88vh;
     border:1px solid var(--line);border-radius:16px;opacity:0;
@@ -266,3 +268,21 @@ footer .fnav a:hover{color:var(--turq)}
 .qual.ret{border-color:#8a6a2b;color:#e8c377}
 .fqual.ret{border-color:#8a6a2b;color:#e8c377}
 .dors{font-size:11px;color:var(--turq);margin-top:-2px;letter-spacing:.02em}
+
+/* --- seleccion de talle y alta explicita --- */
+.sz[aria-pressed=true]{background:var(--turq);border-color:var(--turq);color:#000}
+.sz.last[aria-pressed=true]{background:#e8c377;border-color:#e8c377;color:#000}
+.addwrap{margin-top:3px}
+.add{padding:9px;font-size:12.5px}
+.btn2{display:block;width:100%;text-align:center;padding:11px;border-radius:9px;font-size:13.5px;
+  font-weight:600;background:#141414;border:1px solid #2b2b2b;color:#dcdcdc;cursor:pointer;
+  font-family:inherit;margin-top:9px;text-decoration:none}
+.btn2:hover{border-color:var(--teal);color:var(--turq)}
+
+/* --- barra fija de la ficha --- */
+.fbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin:-18px -16px 12px;padding:11px 14px;background:#0d0d0d;
+  border-bottom:1px solid var(--line)}
+.fback{background:none;border:0;color:var(--turq);font-family:inherit;font-size:13.5px;
+  font-weight:600;cursor:pointer;padding:4px 2px}
+.fback:hover{text-decoration:underline}
